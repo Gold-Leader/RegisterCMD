@@ -19,10 +19,35 @@
 // #include "cusPrint.h"
 
 int main () {
+	char usrInput = 0;
+		
+	std::fstream csvOutputFile;
 	
-	std::ofstream csvOutputFile;
+	std::cout << "Make selection:" << std::endl;
+	std::cout << "[1] - Lookup Customer" << std::endl;
+	std::cout << "[2] - Create Customer" << std::endl;
+	std::cout << "[3] - Delete Customer" << std::endl;
+	std::cout << "[q] - Quit" << std::endl;
+	std::cout << "Selection: " << std::endl;
 	
-	csvOutputFile = createCustomer();
+	switch() {
+		case 1:
+			
+			break;
+		
+		case 2:
+			csvOutputFile = createCustomer();			
+			break;
+		case 3:
+		
+			
+			break;
+		
+		default:
+			
+		break;
+	}
+	
 	
 	csvOutputFile.close();
 	

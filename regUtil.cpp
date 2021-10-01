@@ -19,7 +19,7 @@
 
 // TODO: Add bars and pretty printing
 
-std::ofstream createCustomer() {
+std::fstream createCustomer() {
 	std::string fileName;
 	
 	std::string cusName;
@@ -30,7 +30,7 @@ std::ofstream createCustomer() {
 	std::string cusCopay;
 	std::string cusAVisit;
 	
-	std::ofstream csvOutputFile;
+	std::fstream csvOutputFile;
 	
 	std::vector<std::pair<std::string, std::string>> staticData;
 	
@@ -72,7 +72,7 @@ std::ofstream createCustomer() {
 	(this \n is not a mistake)
 	*/
 	fileName = "customer_data/" + cusPhone + '_' + cusName + ".csv";
-	csvOutputFile.open(fileName, std::ofstream::out);
+	csvOutputFile.open(fileName, std::fstream::out | std::fstream::in);
 	
 	for(int i = 0; i < 6; i++) {
 		// Can also using [i] instead of .at(i)
