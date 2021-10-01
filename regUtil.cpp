@@ -90,3 +90,9 @@ std::fstream createCustomer() {
 	
 	return csvOutputFile;
 }
+
+// std::fstream findCustomer(std::string);
+// std::fstream readCustomer();
+void printCustomer(std::fstream csvFile) {
+	
+}

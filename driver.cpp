@@ -21,35 +21,45 @@
 int main () {
 	char usrInput = 0;
 		
-	std::fstream csvOutputFile;
+	std::fstream csvFile;
 	
 	std::cout << "Make selection:" << std::endl;
 	std::cout << "[1] - Lookup Customer" << std::endl;
 	std::cout << "[2] - Create Customer" << std::endl;
-	std::cout << "[3] - Delete Customer" << std::endl;
 	std::cout << "[q] - Quit" << std::endl;
 	std::cout << "Selection: " << std::endl;
 	
 	switch() {
 		case 1:
-			
+			// Ask
+			// xxx-xxx-xxxx or first last
+			// Search function
+			// Ask
+			// [1] Bill
+			// [2] Update
+			// [3] Delete
+			// [m] Return to menu
+			// Loop until m entered
 			break;
 		
 		case 2:
-			csvOutputFile = createCustomer();			
-			break;
-		case 3:
-		
-			
+			csvFile = createCustomer();
+			// cls
+			// Print customer out
+			// Ask
+			// [1] Bill
+			// [2] Update
+			// [m] Return to menu
+			// Loop until m entered
 			break;
 		
 		default:
-			
+			// Error message
 		break;
 	}
 	
 	
-	csvOutputFile.close();
+	csvFile.close();
 	
 	return 0;
 }
