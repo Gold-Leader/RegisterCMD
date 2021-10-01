@@ -17,6 +17,8 @@
 
 #include "getInputUtil.h"
 
+// TODO: Add bars and pretty printing
+
 void getInputGET(std::string& target, std::string CpromptMSG, std::string CerrorMSG, std::function<bool(std::string)>Fcheck) {
 	bool isValid = false;
 	

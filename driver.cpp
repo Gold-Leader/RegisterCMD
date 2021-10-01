@@ -20,9 +20,11 @@
 
 int main () {
 	
-	std::ofstream file;
+	std::ofstream csvOutputFile;
 	
-	file = createCustomer();
+	csvOutputFile = createCustomer();
+	
+	csvOutputFile.close();
 	
 	return 0;
 }

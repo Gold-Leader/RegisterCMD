@@ -17,6 +17,8 @@
 #include "procInputUtil.h"
 #include "getInputUtil.h"
 
+// TODO: Add bars and pretty printing
+
 std::ofstream createCustomer() {
 	std::string fileName;
 	
@@ -25,14 +27,10 @@ std::ofstream createCustomer() {
 	std::string insName;
 	std::string insPhone;
 	
-	std::string tmpCopay;
-	std::string tmpAVisit;
+	std::string cusCopay;
+	std::string cusAVisit;
 	
-	float copay;
-	int numAuthVisit;
-	int numRemainVisit;
-	
-	std::ofstream file;
+	std::ofstream csvOutputFile;
 	
 	std::vector<std::pair<std::string, std::string>> staticData;
 	
@@ -50,12 +48,15 @@ std::ofstream createCustomer() {
 	
 	getInputGET(insPhone, "Insurer phone (XXX-XXX-XXXX): ", "That does not appear to be a valid phone number.", checkValidPhone);
 	
-	getInputGET(tmpCopay, "Copay (AMOUNT): ", "Invalid copay.", checkValidNumberGT0);
-	getInputGET(tmpAVisit, "Number of authorized visits (AMOUNT): ", "Invalid number of visits", checkValidNumberGT0);
-
-	std::cout << '\n' << std::endl;
-	std::cout << "Date | Amount Billed | Date Billed | Date of Referral | Date Requiring new Referral | Number Remaining Visits" << std::endl;
-	std::cout << '\n' << std::endl;
+	getInputGET(cusCopay, "Copay (AMOUNT): ", "Invalid copay.", checkValidNumberGT0);
+	getInputGET(cusAVisit, "Number of authorized visits (AMOUNT): ", "Invalid number of visits", checkValidNumberGT0);
+	
+	staticData.push_back({"Client Name", cusName});
+	staticData.push_back({"Client Phone", cusPhone});
+	staticData.push_back({"Insurer Name", insName});
+	staticData.push_back({"Insurer Phone", insPhone});
+	staticData.push_back({"Client Copay", cusCopay});
+	staticData.push_back({"Client Authorized Visits", cusAVisit});
 	
 	// Data should resemble the following once saved:
 	/*
@@ -70,8 +71,22 @@ std::ofstream createCustomer() {
 	Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits
 	(this \n is not a mistake)
 	*/
-	fileName = cusPhone + '_' + cusName;
+	fileName = "customer_data/" + cusPhone + '_' + cusName + ".csv";
+	csvOutputFile.open(fileName, std::ofstream::out);
 	
-	return file;
+	for(int i = 0; i < 6; i++) {
+		// Can also using [i] instead of .at(i)
+		// .at(), .first, .second return pointers if type NOT a primitive
+		// or string
+		csvOutputFile << staticData.at(i).first;
+		csvOutputFile << ',';
+		csvOutputFile << staticData.at(i).second;
+		csvOutputFile << '\n';
+	}
 	
+	csvOutputFile << '\n';
+	csvOutputFile << "Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits";
+	csvOutputFile << '\n';
+	
+	return csvOutputFile;
 }

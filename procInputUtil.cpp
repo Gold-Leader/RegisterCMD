@@ -4,6 +4,8 @@
 
 #include "procInputUtil.h"
 
+// TODO: Add bars and pretty printing
+
 bool checkValidPhone(std::string phone) {
 	bool dashIdx[2] = {false};
 	// Initialize to 0 dummy
@@ -22,7 +24,7 @@ bool checkValidPhone(std::string phone) {
 		}
 	}
 	
-	std::cout << dashIdx[0] << dashIdx[1] << numDigit;
+	// std::cout << dashIdx[0] << dashIdx[1] << numDigit;
 	
 	return ((dashIdx[0] && dashIdx[1] && true) && numDigit == 10);
 }
