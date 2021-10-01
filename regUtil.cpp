@@ -1,11 +1,23 @@
 #include <iostream>
-#include <stdlib.h>
+
+#include <ios>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
+
+#include <vector>
+#include <tuple>
+#include <utility>
+#include <string>
+
 #include <windows.h>
+#include <stdlib.h>
 
 #include "regUtil.h"
 #include "procInputUtil.h"
+#include "getInputUtil.h"
 
-std::fstream  createCustomer() {
+std::ofstream createCustomer() {
 	std::string fileName;
 	
 	std::string cusName;
@@ -20,68 +32,27 @@ std::fstream  createCustomer() {
 	int numAuthVisit;
 	int numRemainVisit;
 	
+	std::ofstream file;
+	
+	std::vector<std::pair<std::string, std::string>> staticData;
+	
 	// A " " char appears to be delimiter for << input stream
 	// Use getline for strings with " " chars or potential delimiters
 	std::cout << "Input customer details." << std::endl;
-	std::cout << "Name (First Last): ";
+	std::cout << "Customer name (First Last): ";
 	std::getline(std::cin, cusName);
 	
-	do {
-		std::cout << "Phone (XXX-XXX-XXXX): ";
-		std::getline(std::cin, cusPhone);
-		
-		if(!checkValidPhone(cusPhone)) {
-			std::cout << "That does not appear to be a valid phone number.";
-			Sleep(1000);
-			system("CLS");
-		}
-		
-	} while(!checkValidPhone(cusPhone));
+	getInputGET(cusPhone, "Customer phone (XXX-XXX-XXXX): ", "That does not appear to be a valid phone number.", checkValidPhone);
 	
 	std::cout << "Input insurer details." << std::endl;
-	std::cout << "Name (Name): ";
+	std::cout << "Insurer name (Name): ";
 	std::getline(std::cin, insName);
 	
-	do {
-		std::cout << "Phone (XXX-XXX-XXXX): ";
-		std::getline(std::cin, insPhone);
-		
-		if(!checkValidPhone(cusPhone)) {
-			std::cout << "That does not appear to be a valid phone number.";
-			Sleep(1000);
-			system("CLS");
-		}
-		
-	} while(!checkValidPhone(cusPhone));
+	getInputGET(insPhone, "Insurer phone (XXX-XXX-XXXX): ", "That does not appear to be a valid phone number.", checkValidPhone);
 	
-	do {
-		std::cout << "Copay (AMOUNT): ";
-		std::cin >> copay;
-		std::cin.clear();
-		
-		if(copay < 0) {
-			std::cout << "Invalid copay.";
-			Sleep(1000);
-			system("CLS");
-		}
-		
-	} while(checkValidNumber(copay) || stoi(copay) < 0);
-	
-	do {
-		std::cout << "Number of authorized visits (AMOUNT): ";
-		std::cin >> numAuthVisit;
-		std::cin.clear();
-		
-		if(numAuthVisit < 0) {
-			std::cout << "Invalid number of visits.";
-			Sleep(1000);
-			system("CLS");
-		}
-		
-	} while(numAuthVisit< 0);
+	getInputGET(tmpCopay, "Copay (AMOUNT): ", "Invalid copay.", checkValidNumberGT0);
+	getInputGET(tmpAVisit, "Number of authorized visits (AMOUNT): ", "Invalid number of visits", checkValidNumberGT0);
 
-	fileName = cusPhone + '_' + cusName;
-	
 	std::cout << '\n' << std::endl;
 	std::cout << "Date | Amount Billed | Date Billed | Date of Referral | Date Requiring new Referral | Number Remaining Visits" << std::endl;
 	std::cout << '\n' << std::endl;
@@ -99,7 +70,8 @@ std::fstream  createCustomer() {
 	Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits
 	(this \n is not a mistake)
 	*/
+	fileName = cusPhone + '_' + cusName;
 	
-	return "help";
+	return file;
 	
 }

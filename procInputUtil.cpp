@@ -1,12 +1,13 @@
 #include <iostream>
 #include <ctype.h>
-#include <string.h>
+#include <string>
 
 #include "procInputUtil.h"
 
 bool checkValidPhone(std::string phone) {
 	bool dashIdx[2] = {false};
-	short numDigit;
+	// Initialize to 0 dummy
+	short numDigit = 0;
 	
 	short j = 0;
 	
@@ -21,12 +22,14 @@ bool checkValidPhone(std::string phone) {
 		}
 	}
 	
+	std::cout << dashIdx[0] << dashIdx[1] << numDigit;
+	
 	return ((dashIdx[0] && dashIdx[1] && true) && numDigit == 10);
 }
 
 bool checkValidDate(std::string date) {
 	bool slashIdx[2] = {false};
-	short numDigit;
+	short numDigit = 0;
 	
 	short j = 0;
 	
@@ -41,17 +44,69 @@ bool checkValidDate(std::string date) {
 		}
 	}
 	
-	return ((slashIdx[0] && slashIdx[1] && true) && numDigit == 10);
+	return ((slashIdx[0] && slashIdx[1] && true) && numDigit == (date.length() - 2));
 }
 
-bool checkValidNumber(std::string currency) {
-	short numDigit;
+bool checkValidNumber(std::string number) {
+	short numDigit = 0;
 	
-	for(int i = 0; i < currency.length(); i++) {
-		if(isdigit(currency[i])) {
+	for(int i = 0; i < number.length(); i++) {
+		if(isdigit(number[i])) {
 			numDigit++;
 		}
-	}	
+	}
 	
 	return numDigit;
+}
+
+bool checkValidNumberGT0(std::string number) {
+	short numDigit = 0;
+	float tmpValue = 0;
+	
+	for(int i = 0; i < number.length(); i++) {
+		if(isdigit(number[i])) {
+			numDigit++;
+		}
+	}
+	
+	if(numDigit == number.length()) {
+		tmpValue = std::stof(number);
+	}
+	
+	return numDigit && (tmpValue >= 0);
+}
+
+
+bool checkValidNumberLT0(std::string number) {
+	short numDigit;
+	float tmpValue;
+	
+	for(int i = 0; i < number.length(); i++) {
+		if(isdigit(number[i])) {
+			numDigit++;
+		}
+	}
+	
+	if(numDigit == number.length()) {
+		tmpValue = std::stof(number);
+	}
+	
+	return numDigit && (tmpValue <= 0);
+}
+
+bool checkValidNumberEQ0(std::string number) {
+	short numDigit;
+	float tmpValue;
+	
+	for(int i = 0; i < number.length(); i++) {
+		if(isdigit(number[i])) {
+			numDigit++;
+		}
+	}
+	
+	if(numDigit == number.length()) {
+		tmpValue = std::stof(number);
+	}
+	
+	return numDigit && (tmpValue == 0);
 }

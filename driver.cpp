@@ -19,7 +19,10 @@
 // #include "cusPrint.h"
 
 int main () {
-	createCustomer();
+	
+	std::ofstream file;
+	
+	file = createCustomer();
 	
 	return 0;
 }
