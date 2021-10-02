@@ -29,7 +29,7 @@ int main () {
 	std::cout << "[q] - Quit" << std::endl;
 	std::cout << "Selection: " << std::endl;
 	
-	switch() {
+	switch(usrInput) {
 		case 1:
 			// Ask
 			// xxx-xxx-xxxx or first last

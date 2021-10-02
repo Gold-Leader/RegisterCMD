@@ -8,6 +8,6 @@
 void getInputGET(std::string&, std::string, std::string, std::function<bool(std::string)>);
 void getInputCIN(std::string&, std::string, std::string, std::function<bool(std::string)>);
 
-void getInputCHAR(std::char&, std::string, std::string, std::function<bool(std::string)>);
+void getInputCHAR(char&, std::string, std::string, std::function<bool(std::string)>);
 
 #endif
