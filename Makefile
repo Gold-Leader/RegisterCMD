@@ -1,7 +1,7 @@
 all: Register
-CC = g++ -std=c++11
+CC = g++ -std=c++17
 	
-Register: driver.o regUtil.o procInputUtil.o getInputUtil.o fileUtil.o
+Register: driver.o regUtil.o procInputUtil.o getInputUtil.o fileUtil.o 
 	$(CC) -g driver.o regUtil.o procInputUtil.o getInputUtil.o fileUtil.o -o Register
 driver.o: driver.cpp
 	$(CC) -g -c driver.cpp

@@ -14,14 +14,19 @@
 #include <conio.h>
 
 #include "regUtil.h"
+#include "fileUtil.h"
 // #include "cusUtil.h"
 // #include "cusBar.h"
 // #include "cusPrint.h"
 
 int main () {
 	char usrInput = 0;
-		
+	
+	std::vector<std::string> fileDir;
+	
 	std::fstream csvFile;
+	
+	getDir("customer_data");
 	
 	std::cout << "Make selection:" << std::endl;
 	std::cout << "[1] - Lookup Customer" << std::endl;
@@ -57,8 +62,7 @@ int main () {
 			// Error message
 		break;
 	}
-	
-	
+		
 	csvFile.close();
 	
 	return 0;

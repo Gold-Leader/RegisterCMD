@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 #include <vector>
 #include <tuple>
@@ -13,25 +14,20 @@
 #include <stdlib.h>
 #include <conio.h>
 
-#include <boost/filesystem.hpp>
 
 #include "fileUtil.h"
 
 std::vector<std::string> getDir(std::string dirPath) {
 	std::vector<std::string> fileNameArr;
 	
-	if(boost::filesystem::exists(dirPath)) {
-		boost::filesystem::directory_iterator dirItr(dirPath);
-		boost::filesystem::directory_iterator dirEnd;
-		
-		
-		// Go look at directory_iterator type (is it just a pointer?)
-		while(dirItr != dirEnd) {
-			fileNameArr.push_back(dirItr->path().filename().string());
-			dirItr++;
-		}
-	}
+	std::filesystem::path directory{dirPath};
 	
+
+	for(auto& directoryEntry: std::filesystem::directory_iterator{directory}) {
+		fileNameArr.push_back(directoryEntry.path().string());		// Explicit conversion
+		std::cout << directoryEntry.path().string() << std::endl;
+	}
+
 	return fileNameArr;
 }
 

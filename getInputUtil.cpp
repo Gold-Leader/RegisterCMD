@@ -40,3 +40,7 @@ void getInputGET(std::string& target, std::string CpromptMSG, std::string Cerror
 void getInputCIN(std::string& target, std::string CpromptMSG, std::string CerrorMSG, std::function<bool(std::string)>Fcheck) {
 	
 }
+
+void getInputCHAR(char& target, std::string CpromptMSG, std::string CerrorMSG, std::function<bool(std::string)>Fcheck) {
+	
+}
