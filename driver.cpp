@@ -22,11 +22,15 @@
 int main () {
 	char usrInput = 0;
 	
+	std::string filePath;
+	
 	std::vector<std::string> fileDir;
+	// fileDir.clear();
 	
 	std::fstream csvFile;
 	
-	getDir("customer_data");
+	getDir("customer_data", fileDir);
+	printDir(fileDir);
 	
 	std::cout << "Make selection:" << std::endl;
 	std::cout << "[1] - Lookup Customer" << std::endl;
@@ -34,11 +38,26 @@ int main () {
 	std::cout << "[q] - Quit" << std::endl;
 	std::cout << "Selection: " << std::endl;
 	
+	std::string temp2 = "";
+	usrInput = 1;
+	
 	switch(usrInput) {
 		case 1:
 			// Ask
 			// xxx-xxx-xxxx or first last
-			// Search function
+			// Search function,
+			filePath = searchDir(fileDir, "971-719");
+			
+			csvFile = openFile(filePath);
+			
+			printCustomer(csvFile);
+			
+				// Ask for input if failed
+				// Keep track of attempts
+				// Quit to menu if too many attempts
+				
+			// On success read file contents
+			
 			// Ask
 			// [1] Bill
 			// [2] Update
@@ -48,8 +67,10 @@ int main () {
 			break;
 		
 		case 2:
-			csvFile = createCustomer();
+			csvFile = createCustomer("customer_data");
 			// cls
+			// Update fileDir vector
+			getDir("customer_data", fileDir);
 			// Print customer out
 			// Ask
 			// [1] Bill
