@@ -52,7 +52,7 @@ int main () {
 			
 			csvFile = openFile(filePath);
 			
-			printCustomer(csvFile);
+			printCSV(csvFile);
 			
 			readCustomerStatic(csvFile, staticData);
 			readCustomerDynamic(csvFile, dynamicData);

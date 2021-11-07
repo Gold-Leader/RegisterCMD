@@ -94,7 +94,7 @@ std::fstream createCustomer(std::string dirParam) {
 
 // std::fstream findCustomer(std::string);
 // std::fstream readCustomer();
-void printCustomer(std::fstream& csvFile) {
+void printCSV(std::fstream& csvFile) {
 	csvFile.clear();
 	// Files are zero-indexed
 	csvFile.seekg(0);
