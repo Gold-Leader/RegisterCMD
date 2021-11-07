@@ -19,7 +19,8 @@
 
 // TODO: Add bars and pretty printing
 
-std::fstream createCustomer() {
+std::fstream createCustomer(std::string dirParam) {
+	std::string dir = dirParam;
 	std::string fileName;
 	
 	std::string cusName;
@@ -71,7 +72,7 @@ std::fstream createCustomer() {
 	Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits
 	(this \n is not a mistake)
 	*/
-	fileName = "customer_data/" + cusPhone + '_' + cusName + ".csv";
+	fileName = dir + "/" + cusPhone + '_' + cusName + ".csv";
 	csvOutputFile.open(fileName, std::fstream::out | std::fstream::in);
 	
 	for(int i = 0; i < 6; i++) {
@@ -93,6 +94,20 @@ std::fstream createCustomer() {
 
 // std::fstream findCustomer(std::string);
 // std::fstream readCustomer();
-void printCustomer(std::fstream csvFile) {
+void printCustomer(std::fstream& csvFile) {
+	csvFile.clear();
+	// Files are zero-indexed
+	csvFile.seekg(0);
 	
+	std::string temp = "";
+	
+	for(int idp = 0; idp < 6; idp++) {
+		std::getline(csvFile, temp);
+		std::cout << temp << std::endl;
+	}
+	
+	while(!csvFile.eof()) {
+		std::getline(csvFile, temp);
+		std::cout << temp << std::endl;
+	}
 }

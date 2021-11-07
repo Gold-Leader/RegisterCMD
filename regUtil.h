@@ -9,10 +9,12 @@
 #define REGUTIL_H
 
 
-std::fstream createCustomer();
-// std::fstream findCustomer(std::string);
-// std::fstream readCustomer();
-void printCustomer(std::fstream);
+std::fstream createCustomer(std::string dirParam);
+
+std::vector<std::pair<std::string, std::string>> readCustomerStatic();
+std::vector<std::pair<std::string, std::string>> readCustomerDynamic();
+
+void printCustomer(std::fstream&);
 
 // void editCustomer();
 // void billCustomer();
