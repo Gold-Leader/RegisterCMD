@@ -16,10 +16,11 @@
 #ifndef FILEUTIL_H
 #define FILEUTIL_H
 
-std::vector<std::string> getDir(std::string);
+void getDir(std::string, std::vector<std::string>&);
+void printDir(std::vector<std::string>&);
 
-std::string searchDir(std::vector<std::string>, std::string);
+std::string searchDir(std::vector<std::string>&, std::string);
 
-std::ifstream openFile(std::string);
+std::fstream openFile(std::string);
 
 #endif
