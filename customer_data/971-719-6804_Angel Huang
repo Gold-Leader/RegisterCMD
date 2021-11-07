@@ -4,3 +4,5 @@ Insurer Name,Geico
 Insurer Phone,444-444-4444
 Client Copay,30
 Client Authorized Visits,3
+
+Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits

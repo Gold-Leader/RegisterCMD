@@ -25,6 +25,8 @@ int main () {
 	std::string filePath;
 	
 	std::vector<std::string> fileDir;
+	std::vector<std::pair<std::string, std::string>> staticData;
+	std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> dynamicData;
 	// fileDir.clear();
 	
 	std::fstream csvFile;
@@ -46,11 +48,40 @@ int main () {
 			// Ask
 			// xxx-xxx-xxxx or first last
 			// Search function,
-			filePath = searchDir(fileDir, "971-719");
+			filePath = searchDir(fileDir, "MODTEST_Angel_9717196804");
 			
 			csvFile = openFile(filePath);
 			
 			printCustomer(csvFile);
+			
+			readCustomerStatic(csvFile, staticData);
+			
+			for(int i = 0; i < 6; i++) {
+				// Can also using [i] instead of .at(i)
+				// .at(), .first, .second return pointers if type NOT a primitive
+				// or string
+				std::cout << staticData.at(i).first;
+				std::cout << ',';
+				std::cout << staticData.at(i).second;
+				std::cout << '\n';
+			}
+			
+			readCustomerDynamic(csvFile, dynamicData);
+			
+			for(int i = 0; i < dynamicData.size(); i++) {
+				std::cout << std::get<0>(dynamicData.at(i));
+				std::cout << ',';
+				std::cout << std::get<1>(dynamicData.at(i));
+				std::cout << ',';
+				std::cout << std::get<2>(dynamicData.at(i));
+				std::cout << ',';
+				std::cout << std::get<3>(dynamicData.at(i));
+				std::cout << ',';
+				std::cout << std::get<4>(dynamicData.at(i));
+				std::cout << ',';
+				std::cout << std::get<5>(dynamicData.at(i));
+				std::cout << '\n';
+			}
 			
 				// Ask for input if failed
 				// Keep track of attempts

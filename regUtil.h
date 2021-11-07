@@ -11,8 +11,8 @@
 
 std::fstream createCustomer(std::string dirParam);
 
-std::vector<std::pair<std::string, std::string>> readCustomerStatic();
-std::vector<std::pair<std::string, std::string>> readCustomerDynamic();
+void readCustomerStatic(std::fstream&, std::vector<std::pair<std::string, std::string>>&);
+void readCustomerDynamic(std::fstream&, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&);
 
 void printCustomer(std::fstream&);
 

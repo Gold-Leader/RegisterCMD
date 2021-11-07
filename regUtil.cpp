@@ -99,15 +99,50 @@ void printCustomer(std::fstream& csvFile) {
 	// Files are zero-indexed
 	csvFile.seekg(0);
 	
-	std::string temp = "";
+	std::string input = "";
 	
 	for(int idp = 0; idp < 6; idp++) {
-		std::getline(csvFile, temp);
-		std::cout << temp << std::endl;
+		std::getline(csvFile, input);
+		std::cout << input << std::endl;
 	}
 	
 	while(!csvFile.eof()) {
-		std::getline(csvFile, temp);
-		std::cout << temp << std::endl;
+		std::getline(csvFile, input);
+		std::cout << input << std::endl;
 	}
+}
+
+void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string, std::string>> &staticRef) {
+	csvFile.clear();
+	csvFile.seekg(0);
+	
+	std::string input[2];
+	
+	for(int idr = 0; idr < 6; idr++) {
+		std::getline(csvFile, input[0], ',');
+		std::getline(csvFile, input[1]);
+		
+		staticRef.push_back({input[0], input[1]});
+	}
+	
+	std::getline(csvFile, input[0]);
+	
+}
+
+void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+	std::string input[6];
+	
+	while(!csvFile.eof()) {
+		std::getline(csvFile, input[0], ',');
+		std::getline(csvFile, input[1], ',');
+		std::getline(csvFile, input[2], ',');
+		std::getline(csvFile, input[3], ',');
+		std::getline(csvFile, input[4], ',');
+		std::getline(csvFile, input[5]);
+		
+		dynamicRef.push_back(make_tuple(input[0], input[1], input[2], input[3], input[4], input[5]));
+	}
+	
+	csvFile.clear();
+	csvFile.seekg(0);
 }
