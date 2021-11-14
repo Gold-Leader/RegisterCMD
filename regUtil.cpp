@@ -226,15 +226,26 @@ void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, s
 
 
 void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
-
+	// Print data
+	// Ask which one to edit
+	// Call check functions as needed
+	// Edit the value
+	// Return
 }
 
 void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
-
+	// Print data
+	// Ask which one to edit
+	// Call check functions as needed
+	// Edit the value
+	// Return
 }
 
 void editComment(std::vector<std::string> &commentRef) {
-
+	// Print data
+	// Ask to edit OR add
+	// Edit or add comment
+	// Return
 }
 
 
