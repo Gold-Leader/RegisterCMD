@@ -59,6 +59,7 @@ int main () {
 			// printCSV(csvFile);
 			
 			printData(staticData);
+			printData(dynamicData);
 			
 				// Ask for input if failed
 				// Keep track of attempts

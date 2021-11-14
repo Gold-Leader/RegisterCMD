@@ -17,7 +17,7 @@ void readCustomerComment(std::fstream&, std::vector<std::string>&);
 
 void printCSV(std::fstream&);
 void printData(std::vector<std::pair<std::string, std::string>>&);
-void printData(std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>>&);
+void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&);
 void printData(std::vector<std::string>&);
 
 void editCustomer(std::vector<std::pair<std::string, std::string>>&, std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>>&);

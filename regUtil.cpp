@@ -135,19 +135,18 @@ void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string
 void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	std::string delimiter = ",";
 	
-	std::string input[6];
+	std::string input;
+	std::string output[6];
 	
-	std::getline(csvFile, input[0]);
+	std::getline(csvFile, input);
 	
-	while(!csvFile.eof()) {
-		std::getline(csvFile, input[0], ',');
-		std::getline(csvFile, input[1], ',');
-		std::getline(csvFile, input[2], ',');
-		std::getline(csvFile, input[3], ',');
-		std::getline(csvFile, input[4], ',');
-		std::getline(csvFile, input[5]);
+	while(std::getline(csvFile, input)) {
+		for(int idr = 0; idr < 6; idr++) {
+			output[idr] = input.substr(0, input.find(delimiter));
+			input.erase(0, input.find(delimiter) + delimiter.length());			
+		}
 		
-		dynamicRef.push_back(make_tuple(input[0], input[1], input[2], input[3], input[4], input[5]));
+		dynamicRef.push_back(make_tuple(output[0], output[1], output[2], output[3], output[4], output[5]));
 	}
 	
 	// csvFile.clear();
@@ -163,7 +162,17 @@ void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	}
 }
 
-void printData(std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {
+void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+	for(int idp = 0; idp < dynamicRef.size(); idp++) {
+		std::cout << std::get<0>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<1>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<2>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<3>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<4>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<5>(dynamicRef[idp]) << " | ";
+		
+		std::cout << std::endl;
+	}
 	
 }
 
