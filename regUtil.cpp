@@ -155,11 +155,12 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 }
 
 void readCustomerComment(std::fstream&, std::vector<std::string> &commentRef) {
-	
 }
 
 void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
-	
+	for(int idp = 0; idp < staticRef.size(); idp++) {
+		std::cout << staticRef[idp].first << staticRef[idp].second << std::endl;
+	}
 }
 
 void printData(std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {

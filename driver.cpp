@@ -56,7 +56,9 @@ int main () {
 			
 			readCustomerStatic(csvFile, staticData);
 			readCustomerDynamic(csvFile, dynamicData);
-			printCSV(csvFile);
+			// printCSV(csvFile);
+			
+			printData(staticData);
 			
 				// Ask for input if failed
 				// Keep track of attempts
