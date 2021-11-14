@@ -16,6 +16,7 @@
 
 
 #include "fileUtil.h"
+#include "procInputUtil.h"
 
 void getDir(std::string dirPath, std::vector<std::string> &dirFiles) {
 	std::filesystem::path directory{dirPath};
@@ -34,9 +35,16 @@ void printDir(std::vector<std::string> &dirFiles) {
 }
 
 std::string searchDir(std::vector<std::string> &dirArr, std::string target) {
-	for(int idx = 0; idx < dirArr.size(); idx++)
-		if(dirArr[idx].find(target) != std::string::npos)
-			return dirArr[idx];
+	
+	for(int idx = 0; idx < dirArr.size(); idx++) {
+		if(checkValidPhone(target)) {
+			if(dirArr[idx].find(target) != std::string::npos) {
+				return dirArr[idx];
+			}
+		} else {
+			return "";
+		}
+	}
 		
 	return "";
 }

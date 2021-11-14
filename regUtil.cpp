@@ -121,15 +121,16 @@ void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string
 	std::string input;
 	std::string output[2];
 	
-	for(int idr = 0; idr < 7; idr++) {
-		std::getline(csvFile, input);
-		
-		output[0] = input.substr(0, input.find(delimiter));
-		input.erase(0, input.find(delimiter) + delimiter.length());
-		output[1] = input.substr(0, input.find(delimiter));
-		
+	std::getline(csvFile, input);
+	
+	while(input != "") {
+		for(int idr = 0; idr < 2; idr++) {
+			output[idr] = input.substr(0, input.find(delimiter));
+			input.erase(0, input.find(delimiter) + delimiter.length());			
+		}
 		staticRef.push_back({output[0], output[1]});
-	}	
+		std::getline(csvFile, input);
+	}
 }
 
 void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
@@ -138,7 +139,6 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 	std::string input;
 	std::string output[6];
 	
-	std::getline(csvFile, input);
 	std::getline(csvFile, input);
 	
 	while(input != "") {
