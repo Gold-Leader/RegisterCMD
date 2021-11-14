@@ -1,9 +1,11 @@
 Client Name,Angel Huang
-Client Phone,971-719-6804
-Insurer Name,a
-Insurer Phone,000-000-0000
-Client Copay,4
-Client Authorized Visits,4
+Client Phone,9717196804
+Insurance Name,ACMEINS
+Insurance Phone,1111111111
+Copay,20$
+Number Authorized Visits,4
+Number Remaining Visits,1
 
 Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits
 
+Comments
