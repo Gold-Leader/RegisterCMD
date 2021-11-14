@@ -20,9 +20,10 @@
 // #include "cusPrint.h"
 
 int main () {
-	char usrInput = 0;
+	char usrOptionInput = 0;
+	std::string usrPathInput = "";
 	
-	std::string filePath;
+	std::string filePath = "";
 	
 	std::vector<std::string> fileDir;
 	std::vector<std::pair<std::string, std::string>> staticData;
@@ -33,47 +34,88 @@ int main () {
 	
 	getDir("customer_data", fileDir);
 	
-	while(usrInput != 'q') {
+	while(usrOptionInput != 'q') {
 		std::cout << "Make selection:" << std::endl;
 		std::cout << "[1] - Lookup Customer" << std::endl;
 		std::cout << "[2] - Create Customer" << std::endl;
 		std::cout << "[q] - Exit Application" << std::endl;
 		std::cout << "Selection: ";
 		
-		usrInput = getche();
+		usrOptionInput = getche();
+		std::cout << std::endl;
 		
-		switch(usrInput) {
+		int searchCounter = 0;
+
+		switch(usrOptionInput) {
 			case '1':
 				// Ask
 				// xxx-xxx-xxxx or first last
 				// Search function,
-				filePath = searchDir(fileDir, "MODTEST_Angel_9717196804");
+				
+				
+				do {
+					std::cout << "Input customer phone number: ";
+					std::cin >> usrPathInput;
+					// std::cout << usrPathInput << std::endl;
+					
+					filePath = searchDir(fileDir, usrPathInput);
+
+					
+					
+					if(filePath == "") {
+						std::cout << "File not found!" << std::endl;
+						searchCounter++;
+					}
+				} while(filePath == "" && searchCounter < 6);
+				
+				if(searchCounter >= 6) {
+					std::cout << "Please verify the customer exists." << std::endl;
+					std::cout << "Current customers in database." << std::endl;
+					
+					printDir(fileDir);
+					
+					std::cout << "Press any key to continue." << std::endl;
+					
+					while(!getch()) {
+						
+					}
+
+					break;
+				}
 				
 				csvFile = openFile(filePath);
-				
-				
+
 				readCustomerStatic(csvFile, staticData);
 				readCustomerDynamic(csvFile, dynamicData);
 				readCustomerComment(csvFile, commentData);
-				// printCSV(csvFile);
-				
+
 				printData(staticData);
 				printData(dynamicData);
 				printData(commentData);
-				
-					// Ask for input if failed
-					// Keep track of attempts
-					// Quit to menu if too many attempts
+
+				do {
+					usrOptionInput = getche();
 					
-				// On success read file contents
-				
-				// Ask
-				// [1] Bill
-				// [2] Update/Edit
-				// [3] Delete
-				// [m] Return to menu
-				// Loop until m entered
-				break;
+					switch(usrOptionInput) {
+						case '1':
+							// [1] Bill
+						break;
+						case '2':
+							// [2] Update/Edit
+						break;
+						case '3':
+							// [3] Delete
+						break;
+						case 'm':
+							// [m] Return to menu
+						break;
+						default:
+							// Error message
+							std::cout << "Invalid Input" << std::endl;
+						break;
+					}			
+				} while(usrOptionInput != 'm');
+			break;
 			
 			case '2':
 				csvFile = createCustomer("customer_data");
@@ -85,7 +127,6 @@ int main () {
 				printData(staticData);
 				printData(dynamicData);
 				printData(commentData);
-
 				
 				// cls
 				// Update fileDir vector
@@ -96,12 +137,29 @@ int main () {
 				// [2] Update/Edit
 				// [m] Return to menu
 				// Loop until m entered
-				break;
+				do {
+					usrOptionInput = getch();
+					
+					switch(usrOptionInput) {
+						case '1':
+						break;
+						case '2':
+						break;
+						case '3':
+						break;
+						case 'm':
+						break;
+						default:
+							// Error message
+							std::cout << "Invalid Input" << std::endl;
+						break;
+					}			
+				} while(usrOptionInput != 'm');
+			break;
 			
 			default:
 				// Error message
 				std::cout << "Invalid Input" << std::endl;
-				
 			break;
 		}
 	}
