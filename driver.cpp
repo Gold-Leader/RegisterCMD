@@ -27,12 +27,13 @@ int main () {
 	std::vector<std::string> fileDir;
 	std::vector<std::pair<std::string, std::string>> staticData;
 	std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> dynamicData;
+	std::vector<std::string> commentData;
 	// fileDir.clear();
 	
 	std::fstream csvFile;
 	
 	getDir("customer_data", fileDir);
-	printDir(fileDir);
+	// printDir(fileDir);
 	
 	std::cout << "Make selection:" << std::endl;
 	std::cout << "[1] - Lookup Customer" << std::endl;
@@ -52,10 +53,10 @@ int main () {
 			
 			csvFile = openFile(filePath);
 			
-			printCSV(csvFile);
 			
 			readCustomerStatic(csvFile, staticData);
 			readCustomerDynamic(csvFile, dynamicData);
+			printCSV(csvFile);
 			
 				// Ask for input if failed
 				// Keep track of attempts
@@ -65,7 +66,7 @@ int main () {
 			
 			// Ask
 			// [1] Bill
-			// [2] Update
+			// [2] Update/Edit
 			// [3] Delete
 			// [m] Return to menu
 			// Loop until m entered
@@ -73,13 +74,19 @@ int main () {
 		
 		case 2:
 			csvFile = createCustomer("customer_data");
+			
+			readCustomerStatic(csvFile, staticData);
+			readCustomerDynamic(csvFile, dynamicData);
+			printCSV(csvFile);
+
+			
 			// cls
 			// Update fileDir vector
 			getDir("customer_data", fileDir);
 			// Print customer out
 			// Ask
 			// [1] Bill
-			// [2] Update
+			// [2] Update/Edit
 			// [m] Return to menu
 			// Loop until m entered
 			break;

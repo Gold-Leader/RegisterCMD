@@ -113,24 +113,31 @@ void printCSV(std::fstream& csvFile) {
 }
 
 void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string, std::string>> &staticRef) {
+	std::string delimiter = ",";
+	
 	csvFile.clear();
 	csvFile.seekg(0);
 	
-	std::string input[2];
+	std::string input;
+	std::string output[2];
 	
 	for(int idr = 0; idr < 6; idr++) {
-		std::getline(csvFile, input[0], ',');
-		std::getline(csvFile, input[1]);
+		std::getline(csvFile, input);
 		
-		staticRef.push_back({input[0], input[1]});
-	}
-	
-	std::getline(csvFile, input[0]);
-	
+		output[0] = input.substr(0, input.find(delimiter));
+		input.erase(0, input.find(delimiter) + delimiter.length());
+		output[1] = input.substr(0, input.find(delimiter));
+		
+		staticRef.push_back({output[0], output[1]});
+	}	
 }
 
 void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+	std::string delimiter = ",";
+	
 	std::string input[6];
+	
+	std::getline(csvFile, input[0]);
 	
 	while(!csvFile.eof()) {
 		std::getline(csvFile, input[0], ',');
@@ -143,6 +150,33 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 		dynamicRef.push_back(make_tuple(input[0], input[1], input[2], input[3], input[4], input[5]));
 	}
 	
-	csvFile.clear();
-	csvFile.seekg(0);
+	// csvFile.clear();
+	// csvFile.seekg(0);
+}
+
+void readCustomerComment(std::fstream&, std::vector<std::string> &commentRef) {
+	
+}
+
+void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
+	
+}
+
+void printData(std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {
+	
+}
+
+void printData(std::vector<std::string> &commentRef) {
+	
+}
+
+
+void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {
+	
+}
+
+void billCustomer(std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {
+	// Get amount to bill
+	// Get amount date of billing
+	// Ask if 
 }
