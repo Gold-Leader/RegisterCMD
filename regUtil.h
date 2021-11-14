@@ -20,7 +20,12 @@ void printData(std::vector<std::pair<std::string, std::string>>&);
 void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&);
 void printData(std::vector<std::string>&);
 
-void editCustomer(std::vector<std::pair<std::string, std::string>>&, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&);
+void editCustomer(std::vector<std::pair<std::string, std::string>>&, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&, std::vector<std::string>&);
+
+void editStatic(std::vector<std::pair<std::string, std::string>>&);
+void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&);
+void editComment(std::vector<std::string>&);
+
 void billCustomer(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>>&);
 
 // void writeCustomer(std::fstream, std::vector<std::pair<std::string, std::string>>, std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>>);

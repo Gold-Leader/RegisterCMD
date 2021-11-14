@@ -169,7 +169,10 @@ void readCustomerComment(std::fstream& csvFile, std::vector<std::string> &commen
 
 void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	for(int idp = 0; idp < staticRef.size(); idp++) {
-		std::cout << staticRef[idp].first << staticRef[idp].second << std::endl;
+		std::cout << staticRef[idp].first  << " | ";
+		std::cout << staticRef[idp].second;
+		
+		std::cout << std::endl;
 	}
 }
 
@@ -180,7 +183,7 @@ void printData(std::vector<std::tuple<std::string, std::string, std::string, std
 		std::cout << std::get<2>(dynamicRef[idp]) << " | ";
 		std::cout << std::get<3>(dynamicRef[idp]) << " | ";
 		std::cout << std::get<4>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<5>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<5>(dynamicRef[idp]);
 		
 		std::cout << std::endl;
 	}
@@ -194,11 +197,48 @@ void printData(std::vector<std::string> &commentRef) {
 }
 
 
-void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {
+void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+	char userActionInput = 0;
 	
+	do {
+		switch(userActionInput) {
+			case '1':
+				// Edit static stuff/customer and insurer details
+				// editStatic(staticRef);
+			break;
+			case '2':
+				// Edit a visitation detail
+				// editDynamic(dynamicRef);
+			break;
+			case '3':
+				// Add/remove a comment
+				// editComment(commentRef);
+			break;
+			case 'd':
+				// Quit
+			break;
+			default:
+				// Invalid
+			break;
+		}
+	} while(userActionInput != 'd');
 }
 
-void billCustomer(std::vector<std::tuple<std::string, int, std::string, std::string, std::string, int>> &dynamicRef) {
+
+void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
+
+}
+
+void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+
+}
+
+void editComment(std::vector<std::string> &commentRef) {
+
+}
+
+
+void billCustomer(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	// Get amount to bill
 	// Get amount date of billing
 	// Ask if 
