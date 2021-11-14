@@ -48,13 +48,9 @@ int main () {
 
 		switch(usrOptionInput) {
 			case '1':
-				// Ask
-				// xxx-xxx-xxxx or first last
-				// Search function,
-				
 				
 				do {
-					std::cout << "Input customer phone number: ";
+					std::cout << "Input customer phone number (XXX-XXX-XXXX): ";
 					std::cin >> usrPathInput;
 					// std::cout << usrPathInput << std::endl;
 					
@@ -131,23 +127,22 @@ int main () {
 				// cls
 				// Update fileDir vector
 				getDir("customer_data", fileDir);
-				// Print customer out
-				// Ask
-				// [1] Bill
-				// [2] Update/Edit
-				// [m] Return to menu
-				// Loop until m entered
+
 				do {
-					usrOptionInput = getch();
+					usrOptionInput = getche();
 					
 					switch(usrOptionInput) {
 						case '1':
+							// [1] Bill
 						break;
 						case '2':
+							// [2] Update/Edit
 						break;
 						case '3':
+							// [3] Delete
 						break;
 						case 'm':
+							// [m] Return to menu
 						break;
 						default:
 							// Error message
