@@ -139,21 +139,33 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 	std::string output[6];
 	
 	std::getline(csvFile, input);
+	std::getline(csvFile, input);
 	
-	while(std::getline(csvFile, input)) {
+	while(input != "") {
 		for(int idr = 0; idr < 6; idr++) {
 			output[idr] = input.substr(0, input.find(delimiter));
 			input.erase(0, input.find(delimiter) + delimiter.length());			
 		}
 		
 		dynamicRef.push_back(make_tuple(output[0], output[1], output[2], output[3], output[4], output[5]));
+		std::getline(csvFile, input);
 	}
 	
 	// csvFile.clear();
 	// csvFile.seekg(0);
 }
 
-void readCustomerComment(std::fstream&, std::vector<std::string> &commentRef) {
+void readCustomerComment(std::fstream& csvFile, std::vector<std::string> &commentRef) {
+	std::string delimiter = ",";
+	
+	std::string input;
+	std::string output;
+	
+	std::getline(csvFile, input);
+	
+	while(std::getline(csvFile, input)) {		
+		commentRef.push_back(output);
+	}
 }
 
 void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
@@ -177,7 +189,9 @@ void printData(std::vector<std::tuple<std::string, std::string, std::string, std
 }
 
 void printData(std::vector<std::string> &commentRef) {
-	
+	for(int idp = 0; idp < commentRef.size(); idp++) {
+		std::cout << commentRef[idp] << std::endl;
+	}
 }
 
 
