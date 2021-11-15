@@ -256,7 +256,7 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	
 	std::cout << "Current value: " << staticRef[usrEditInput - '0'].first << staticRef[usrEditInput - '0'].second << std::endl;
 	std::cout << "New value: ";
-	std::cin >> usrEditValueInput;
+	std::getline(std::cin, usrEditValueInput);
 	
 	staticRef[usrEditInput - '0'].second = usrEditValueInput;
 	printData(staticRef);
