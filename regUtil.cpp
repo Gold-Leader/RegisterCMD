@@ -201,14 +201,14 @@ void printData(std::vector<std::string> &commentRef) {
 void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
 	char userActionInput = 0;
 	
-	std::cout << "Actions:" << std::endl;
-	std::cout << "[1] - Edit Customer and Insurer Details" << std::endl;
-	std::cout << "[2] - Edit Billing and Visitation Details" << std::endl;
-	std::cout << "[3] - Edit or Add Comment" << std::endl;
-	std::cout << "[d] - Done" << std::endl;
-	std::cout << "Selection: ";
 	
 	do {
+		std::cout << "Actions:" << std::endl;
+		std::cout << "[1] - Edit Customer and Insurer Details" << std::endl;
+		std::cout << "[2] - Edit Billing and Visitation Details" << std::endl;
+		std::cout << "[3] - Edit or Add Comment" << std::endl;
+		std::cout << "[d] - Done" << std::endl;
+		std::cout << "Selection: ";
 		userActionInput = getche();
 		
 		switch(userActionInput) {
@@ -241,6 +241,9 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	// Call check functions as needed
 	// Edit the value
 	// Return
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
 	
@@ -251,8 +254,15 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	for(int idp = 0; idp < staticRef.size(); idp++) {
 		std::cout << idp << ": " << staticRef[idp].first << std::endl;
 	}
-	std::cout << "Option: ";
-	usrEditInput = getche();
+	do {
+		std::cout << "Option: ";
+		usrEditInput = getche();
+		
+		if(usrEditInput - '0' < 0 || usrEditInput - '0' >= staticRef.size()) {
+			std::cout << "Not an option!" << std::endl;
+		}
+		
+	} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= staticRef.size());
 	
 	std::cout << "Current value: " << staticRef[usrEditInput - '0'].first << staticRef[usrEditInput - '0'].second << std::endl;
 	std::cout << "New value: ";
