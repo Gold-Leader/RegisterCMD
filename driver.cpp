@@ -55,8 +55,6 @@ int main () {
 					// std::cout << usrPathInput << std::endl;
 					
 					filePath = searchDir(fileDir, usrPathInput);
-
-					
 					
 					if(filePath == "") {
 						std::cout << "File not found!" << std::endl;
@@ -89,13 +87,13 @@ int main () {
 				printData(dynamicData);
 				printData(commentData);
 
-				std::cout << "Actions:" << std::endl;
-				std::cout << "[1] - Bill Customer" << std::endl;
-				std::cout << "[2] - Edit Customer" << std::endl;
-				std::cout << "[3] - Delete Customer" << std::endl;
-				std::cout << "[m] - Return to Menu" << std::endl;
-				std::cout << "Selection: ";
 				do {
+					std::cout << "Actions:" << std::endl;
+					std::cout << "[1] - Bill Customer" << std::endl;
+					std::cout << "[2] - Edit Customer" << std::endl;
+					std::cout << "[3] - Delete Customer" << std::endl;
+					std::cout << "[m] - Return to Menu" << std::endl;
+					std::cout << "Selection: ";
 					usrOptionInput = getche();
 					
 					switch(usrOptionInput) {
