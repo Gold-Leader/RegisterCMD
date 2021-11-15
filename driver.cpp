@@ -89,6 +89,12 @@ int main () {
 				printData(dynamicData);
 				printData(commentData);
 
+				std::cout << "Actions:" << std::endl;
+				std::cout << "[1] - Bill Customer" << std::endl;
+				std::cout << "[2] - Edit Customer" << std::endl;
+				std::cout << "[3] - Delete Customer" << std::endl;
+				std::cout << "[m] - Return to Menu" << std::endl;
+				std::cout << "Selection: ";
 				do {
 					usrOptionInput = getche();
 					
@@ -98,6 +104,7 @@ int main () {
 						break;
 						case '2':
 							// [2] Update/Edit
+							editCustomer(staticData, dynamicData, commentData);
 						break;
 						case '3':
 							// [3] Delete
