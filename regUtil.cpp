@@ -12,6 +12,7 @@
 
 #include <windows.h>
 #include <stdlib.h>
+#include <conio.h>
 
 #include "regUtil.h"
 #include "procInputUtil.h"
@@ -197,14 +198,23 @@ void printData(std::vector<std::string> &commentRef) {
 }
 
 
-void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
 	char userActionInput = 0;
 	
+	std::cout << "Actions:" << std::endl;
+	std::cout << "[1] - Edit Customer and Insurer Details" << std::endl;
+	std::cout << "[2] - Edit Billing and Visitation Details" << std::endl;
+	std::cout << "[3] - Edit or Add Comment" << std::endl;
+	std::cout << "[d] - Done" << std::endl;
+	std::cout << "Selection: ";
+	
 	do {
+		userActionInput = getche();
+		
 		switch(userActionInput) {
 			case '1':
 				// Edit static stuff/customer and insurer details
-				// editStatic(staticRef);
+				editStatic(staticRef);
 			break;
 			case '2':
 				// Edit a visitation detail
@@ -231,13 +241,34 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	// Call check functions as needed
 	// Edit the value
 	// Return
+	char usrEditInput = 0;
+	std::string usrEditValueInput = "";
+	
+	std::cout << "Current Customer/Insurer Details" << std::endl;
+	printData(staticRef);
+	
+	std::cout << "What would you like to edit:" << std::endl;
+	for(int idp = 0; idp < staticRef.size(); idp++) {
+		std::cout << idp << ": " << staticRef[idp].first << std::endl;
+	}
+	std::cout << "Option: ";
+	usrEditInput = getche();
+	
+	std::cout << "Current value: " << staticRef[usrEditInput - '0'].first << staticRef[usrEditInput - '0'].second << std::endl;
+	std::cout << "New value: ";
+	std::cin >> usrEditValueInput;
+	
+	staticRef[usrEditInput - '0'].second = usrEditValueInput;
+	printData(staticRef);
+	
+	return;
 }
 
 void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	// Print data
-	// Ask which one to edit
+	// Ask to edit OR add
 	// Call check functions as needed
-	// Edit the value
+	// Edit or add comment
 	// Return
 }
 
