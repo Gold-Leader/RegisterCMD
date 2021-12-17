@@ -27,7 +27,7 @@ int main () {
 	
 	std::vector<std::string> fileDir;
 	std::vector<std::pair<std::string, std::string>> staticData;
-	std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> dynamicData;
+	std::vector<std::tuple<std::string, std::string, std::string, std::string>> dynamicData;
 	std::vector<std::string> commentData;
 	
 	std::fstream csvFile;

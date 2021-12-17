@@ -36,6 +36,9 @@ std::fstream createCustomer(std::string dirParam) {
 	
 	std::vector<std::pair<std::string, std::string>> staticData;
 	
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	
 	// A " " char appears to be delimiter for << input stream
 	// Use getline for strings with " " chars or potential delimiters
 	std::cout << "Input customer details." << std::endl;
@@ -87,8 +90,11 @@ std::fstream createCustomer(std::string dirParam) {
 	}
 	
 	csvOutputFile << '\n';
-	csvOutputFile << "Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits";
+	csvOutputFile << "Date,Amount Billed,Date Billed,Number Remaining Visits";
 	csvOutputFile << '\n';
+	
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	
 	return csvOutputFile;
 }
@@ -134,7 +140,7 @@ void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string
 	}
 }
 
-void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef) {
 	std::string delimiter = ",";
 	
 	std::string input;
@@ -143,12 +149,12 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 	std::getline(csvFile, input);
 	
 	while(input != "") {
-		for(int idr = 0; idr < 6; idr++) {
+		for(int idr = 0; idr < 4; idr++) {
 			output[idr] = input.substr(0, input.find(delimiter));
 			input.erase(0, input.find(delimiter) + delimiter.length());			
 		}
 		
-		dynamicRef.push_back(make_tuple(output[0], output[1], output[2], output[3], output[4], output[5]));
+		dynamicRef.push_back(make_tuple(output[0], output[1], output[2], output[3]));
 		std::getline(csvFile, input);
 	}
 }
@@ -177,14 +183,12 @@ void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	}
 }
 
-void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef) {
 	for(int idp = 0; idp < dynamicRef.size(); idp++) {
 		std::cout << std::get<0>(dynamicRef[idp]) << " | ";
 		std::cout << std::get<1>(dynamicRef[idp]) << " | ";
 		std::cout << std::get<2>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<3>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<4>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<5>(dynamicRef[idp]);
+		std::cout << std::get<3>(dynamicRef[idp]);
 		
 		std::cout << std::endl;
 	}
@@ -198,7 +202,7 @@ void printData(std::vector<std::string> &commentRef) {
 }
 
 
-void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
+void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
 	char userActionInput = 0;
 	
 	
@@ -258,6 +262,8 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 		std::cout << "Option: ";
 		usrEditInput = getche();
 		
+		// usrEditInput is a character but can be converted to an integer equivalent via 'char' - '0'
+		// Boundaries are between 0 and size of staticRef
 		if(usrEditInput - '0' < 0 || usrEditInput - '0' >= staticRef.size()) {
 			std::cout << "Not an option!" << std::endl;
 		}
@@ -274,12 +280,15 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	return;
 }
 
-void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef) {
 	// Print data
 	// Ask to edit OR add
 	// Call check functions as needed
 	// Edit or add comment
 	// Return
+	
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void editComment(std::vector<std::string> &commentRef) {
@@ -287,11 +296,21 @@ void editComment(std::vector<std::string> &commentRef) {
 	// Ask to edit OR add
 	// Edit or add comment
 	// Return
+	
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 
 void billCustomer(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
-	// Get amount to bill
-	// Get amount date of billing
-	// Ask if 
+	std::string bill;
+	std::string date;
+	
+	getInputGET(bill, "How much to bill: ", "Invalid Amount!", checkValidNumberGT0);
+	getInputGET(date, "Date of service: ", "Invalid Date!", checkValidDate);
+	
+	
+	
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
