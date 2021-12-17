@@ -34,7 +34,7 @@ int main () {
 	
 	getDir("customer_data", fileDir);
 	
-	while(usrOptionInput != 'q') {
+	do {
 		std::cout << "Make selection:" << std::endl;
 		std::cout << "[1] - Lookup Customer" << std::endl;
 		std::cout << "[2] - Create Customer" << std::endl;
@@ -119,6 +119,10 @@ int main () {
 			break;
 			
 			case '2':
+			
+				std::cin.clear();
+				// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			
 				csvFile = createCustomer("customer_data");
 				
 				readCustomerStatic(csvFile, staticData);
@@ -134,6 +138,13 @@ int main () {
 				getDir("customer_data", fileDir);
 
 				do {
+					std::cout << "Actions:" << std::endl;
+					std::cout << "[1] - Bill Customer" << std::endl;
+					std::cout << "[2] - Edit Customer" << std::endl;
+					std::cout << "[3] - Delete Customer" << std::endl;
+					std::cout << "[m] - Return to Menu" << std::endl;
+					std::cout << "Selection: ";
+					
 					usrOptionInput = getche();
 					
 					switch(usrOptionInput) {
@@ -157,14 +168,16 @@ int main () {
 				} while(usrOptionInput != 'm');
 			break;
 			
+			case 'q':
+				// do nothing
+				std::cout << "Exitting application" << std::endl;
+			break;
 			default:
 				// Error message
 				std::cout << "Invalid Input" << std::endl;
 			break;
 		}
-	}
-
-	std::cout << "Exiting Application" << std::endl;
+	}while(usrOptionInput != 'q') ;
 
 	csvFile.close();
 	

@@ -36,9 +36,6 @@ std::fstream createCustomer(std::string dirParam) {
 	
 	std::vector<std::pair<std::string, std::string>> staticData;
 	
-	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	
 	// A " " char appears to be delimiter for << input stream
 	// Use getline for strings with " " chars or potential delimiters
 	std::cout << "Input customer details." << std::endl;
@@ -73,12 +70,14 @@ std::fstream createCustomer(std::string dirParam) {
 	Number of Authorized Visits,[int]
 	Number of Remaining Visits,[int]
 	
-	Date,Amount Billed,Date Billed,Date of Referral,Date Requiring new Referral,Number Remaining Visits
+	Date,Amount Billed,Date Billed,Number Remaining Visits
 	(this \n is not a mistake)
 	*/
+	// std::cout << "Creating file" << std::endl;
 	fileName = dir + "/" + cusPhone + '_' + cusName + ".csv";
-	csvOutputFile.open(fileName, std::fstream::out | std::fstream::in);
+	csvOutputFile.open(fileName, std::fstream::out);
 	
+	// std::cout << "Writing data" << std::endl;
 	for(int i = 0; i < 6; i++) {
 		// Can also using [i] instead of .at(i)
 		// .at(), .first, .second return pointers if type NOT a primitive
@@ -89,12 +88,24 @@ std::fstream createCustomer(std::string dirParam) {
 		csvOutputFile << '\n';
 	}
 	
+	csvOutputFile << "Remaining authorized visits";
+	csvOutputFile << ",";
+	csvOutputFile << staticData.at(5).second;
+	csvOutputFile << '\n';
+	
 	csvOutputFile << '\n';
 	csvOutputFile << "Date,Amount Billed,Date Billed,Number Remaining Visits";
 	csvOutputFile << '\n';
+	csvOutputFile << '\n';
+	csvOutputFile << "Comments:";
+	
+	// std::cout << "Done!" << std::endl;
 	
 	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	
+	csvOutputFile.close();
+	csvOutputFile.open(fileName, std::fstream::out | std::fstream::in);
 	
 	return csvOutputFile;
 }
@@ -144,7 +155,7 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 	std::string delimiter = ",";
 	
 	std::string input;
-	std::string output[6];
+	std::string output[4];
 	
 	std::getline(csvFile, input);
 	
