@@ -102,7 +102,6 @@ std::fstream createCustomer(std::string dirParam) {
 	// std::cout << "Done!" << std::endl;
 	
 	std::cin.clear();
-	// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	
 	csvOutputFile.close();
 	csvOutputFile.open(fileName, std::fstream::out | std::fstream::in);
@@ -257,7 +256,6 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	// Edit the value
 	// Return
 	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
@@ -299,7 +297,6 @@ void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, s
 	// Return
 	
 	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void editComment(std::vector<std::string> &commentRef) {
@@ -309,7 +306,6 @@ void editComment(std::vector<std::string> &commentRef) {
 	// Return
 	
 	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 
@@ -323,5 +319,4 @@ void billCustomer(std::vector<std::tuple<std::string, std::string, std::string, 
 	
 	
 	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }

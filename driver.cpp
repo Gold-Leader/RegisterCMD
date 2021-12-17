@@ -121,7 +121,6 @@ int main () {
 			case '2':
 			
 				std::cin.clear();
-				// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			
 				csvFile = createCustomer("customer_data");
 				

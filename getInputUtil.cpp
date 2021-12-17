@@ -37,7 +37,6 @@ void getInputGET(std::string& target, std::string CpromptMSG, std::string Cerror
 	} while(isValid);
 
 	std::cin.clear();
-	// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void getInputCIN(std::string& target, std::string CpromptMSG, std::string CerrorMSG, std::function<bool(std::string)>Fcheck) {
