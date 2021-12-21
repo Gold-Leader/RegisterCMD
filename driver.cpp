@@ -13,22 +13,23 @@
 #include <stdlib.h>
 #include <conio.h>
 
+#include <filesystem>
+
 #include "regUtil.h"
 #include "fileUtil.h"
 // #include "cusUtil.h"
 // #include "cusBar.h"
 // #include "cusPrint.h"
 
+#include "customer.h"
+
 int main () {
 	char usrOptionInput = 0;
 	std::string usrPathInput = "";
 	
-	std::string filePath = "";
+	customerObj customer;
 	
 	std::vector<std::string> fileDir;
-	std::vector<std::pair<std::string, std::string>> staticData;
-	std::vector<std::tuple<std::string, std::string, std::string, std::string>> dynamicData;
-	std::vector<std::string> commentData;
 	
 	std::fstream csvFile;
 	
@@ -54,13 +55,13 @@ int main () {
 					std::cin >> usrPathInput;
 					// std::cout << usrPathInput << std::endl;
 					
-					filePath = searchDir(fileDir, usrPathInput);
+					customer.filePath = searchDir(fileDir, usrPathInput);
 					
-					if(filePath == "") {
+					if(customer.filePath == "") {
 						std::cout << "File not found!" << std::endl;
 						searchCounter++;
 					}
-				} while(filePath == "" && searchCounter < 6);
+				} while(customer.filePath == "" && searchCounter < 6);
 				
 				if(searchCounter >= 6) {
 					std::cout << "Please verify the customer exists." << std::endl;
@@ -77,15 +78,15 @@ int main () {
 					break;
 				}
 				
-				csvFile = openFile(filePath);
+				csvFile = openFile(customer.filePath);
 
-				readCustomerStatic(csvFile, staticData);
-				readCustomerDynamic(csvFile, dynamicData);
-				readCustomerComment(csvFile, commentData);
-
-				printData(staticData);
-				printData(dynamicData);
-				printData(commentData);
+				readCustomerStatic(csvFile, customer.staticData);
+				readCustomerDynamic(csvFile, customer.dynamicData);
+				readCustomerComment(csvFile, customer.commentData);
+				
+				printData(customer.staticData);
+				printData(customer.dynamicData);
+				printData(customer.commentData);
 
 				do {
 					std::cout << "Actions:" << std::endl;
@@ -94,28 +95,44 @@ int main () {
 					std::cout << "[3] - Delete Customer" << std::endl;
 					std::cout << "[m] - Return to Menu" << std::endl;
 					std::cout << "Selection: ";
+					
 					usrOptionInput = getche();
+					std::cout << std::endl;
 					
 					switch(usrOptionInput) {
 						case '1':
 							// [1] Bill
+							billCustomer(customer.staticData, customer.dynamicData);
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '2':
 							// [2] Update/Edit
-							editCustomer(staticData, dynamicData, commentData);
+							editCustomer(customer.staticData, customer.dynamicData, customer.commentData);
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '3':
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							csvFile.close();
+							try {
+								std::filesystem::rename("customer_data" + customer.filePath, "old_customer_data" + customer.filePath.erase(0, 13));
+							} catch(std::filesystem::filesystem_error& e) {
+								std::cout << "File either deleted or does not exist" << std::endl;
+								printDir(fileDir);
+							}
 							// [3] Delete
 						break;
 						case 'm':
 							// [m] Return to menu
+							// Update file and close
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							csvFile.close();
 						break;
 						default:
 							// Error message
 							std::cout << "Invalid Input" << std::endl;
 						break;
 					}			
-				} while(usrOptionInput != 'm');
+				} while(usrOptionInput != 'm' && usrOptionInput != '3');
 			break;
 			
 			case '2':
@@ -124,13 +141,13 @@ int main () {
 			
 				csvFile = createCustomer("customer_data");
 				
-				readCustomerStatic(csvFile, staticData);
-				readCustomerDynamic(csvFile, dynamicData);
-				readCustomerComment(csvFile, commentData);
+				readCustomerStatic(csvFile, customer.staticData);
+				readCustomerDynamic(csvFile, customer.dynamicData);
+				readCustomerComment(csvFile, customer.commentData);
 				
-				printData(staticData);
-				printData(dynamicData);
-				printData(commentData);
+				printData(customer.staticData);
+				printData(customer.dynamicData);
+				printData(customer.commentData);
 				
 				// cls
 				// Update fileDir vector
@@ -145,19 +162,27 @@ int main () {
 					std::cout << "Selection: ";
 					
 					usrOptionInput = getche();
+					std::cout << std::endl;
 					
 					switch(usrOptionInput) {
 						case '1':
 							// [1] Bill
+							billCustomer(customer.staticData, customer.dynamicData);
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '2':
 							// [2] Update/Edit
+							editCustomer(customer.staticData, customer.dynamicData, customer.commentData);
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '3':
 							// [3] Delete
 						break;
 						case 'm':
 							// [m] Return to menu
+							// Update file and close
+							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							csvFile.close();
 						break;
 						default:
 							// Error message
