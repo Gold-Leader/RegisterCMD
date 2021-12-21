@@ -4,6 +4,8 @@
 #include <string>
 
 struct customerObj {
+	std::string filePath;
+	
 	// Static
 		// Tuple 1:
 		// Tuple 2:
@@ -12,13 +14,13 @@ struct customerObj {
 		// Tuple 5:
 		// Tuple 6:
 		// Tuple 7:
-	staticData = std::vector<std::pair<std::string, std::string>>;
+	std::vector<std::pair<std::string, std::string>> staticData;
 	
 	// Dynamic
 		// String 1:
 		// String 2:
 		// String 3:
 		// String 4:
-	dynamicData = std::vector<std::tuple<std::string, std::string, std::string, std::string>>;
-	commentData = std::vector<std::string>;
-}
+	std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> dynamicData;
+	std::vector<std::string> commentData;
+};
