@@ -94,7 +94,7 @@ std::fstream createCustomer(std::string dirParam) {
 	csvOutputFile << '\n';
 	
 	csvOutputFile << '\n';
-	csvOutputFile << "Date,Amount Billed,Date Billed,Number Remaining Visits";
+	csvOutputFile << "Date,Amount Billed,Copay,Deductible Met,Number Remaining Visits";
 	csvOutputFile << '\n';
 	csvOutputFile << '\n';
 	csvOutputFile << "Comments:";
@@ -109,8 +109,6 @@ std::fstream createCustomer(std::string dirParam) {
 	return csvOutputFile;
 }
 
-// std::fstream findCustomer(std::string);
-// std::fstream readCustomer();
 void printCSV(std::fstream& csvFile) {
 	csvFile.clear();
 	// Files are zero-indexed
@@ -150,7 +148,7 @@ void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string
 	}
 }
 
-void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef) {
+void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	std::string delimiter = ",";
 	
 	std::string input;
@@ -164,7 +162,7 @@ void readCustomerDynamic(std::fstream& csvFile, std::vector<std::tuple<std::stri
 			input.erase(0, input.find(delimiter) + delimiter.length());			
 		}
 		
-		dynamicRef.push_back(make_tuple(output[0], output[1], output[2], output[3]));
+		dynamicRef.push_back(make_tuple(output[0], output[1], output[2], output[3], output[4]));
 		std::getline(csvFile, input);
 	}
 }
@@ -193,16 +191,16 @@ void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	}
 }
 
-void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef) {
+void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	for(int idp = 0; idp < dynamicRef.size(); idp++) {
 		std::cout << std::get<0>(dynamicRef[idp]) << " | ";
 		std::cout << std::get<1>(dynamicRef[idp]) << " | ";
 		std::cout << std::get<2>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<3>(dynamicRef[idp]);
+		std::cout << std::get<3>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<4>(dynamicRef[idp]);
 		
 		std::cout << std::endl;
 	}
-	
 }
 
 void printData(std::vector<std::string> &commentRef) {
@@ -212,7 +210,7 @@ void printData(std::vector<std::string> &commentRef) {
 }
 
 
-void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
+void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
 	char userActionInput = 0;
 	
 	
@@ -289,14 +287,25 @@ void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	return;
 }
 
-void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string>> &dynamicRef) {
+void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+	std::cin.clear();
+	
+	std::string usrEditDate;
+	
+	char usrEditInput = 0;
+	std::string usrEditValueInput = "";
+	
+	std::cout << "Current Customer Visits" << std::endl;
+	printData(dynamicRef);
+	
+	std::cout << "Which entry at which date would you like to edit:" << std::endl;
+	
+	
 	// Print data
 	// Ask to edit OR add
 	// Call check functions as needed
 	// Edit or add comment
 	// Return
-	
-	std::cin.clear();
 }
 
 void editComment(std::vector<std::string> &commentRef) {
@@ -309,14 +318,84 @@ void editComment(std::vector<std::string> &commentRef) {
 }
 
 
-void billCustomer(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
-	std::string bill;
-	std::string date;
+void billCustomer(std::vector<std::pair<std::string, std::string>> &staticRef,
+					std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+	std::string billDate;
+	std::string billAmount;
+	std::string billCopay;
+	std::string billDeductibleMet;
+	std::string billRemainVisit;
 	
-	getInputGET(bill, "How much to bill: ", "Invalid Amount!", checkValidNumberGT0);
-	getInputGET(date, "Date of service: ", "Invalid Date!", checkValidDate);
-	
-	
+	char billDeductibleInput = ' ';
 	
 	std::cin.clear();
+	
+	getInputGET(billDate, "Date of service: ", "Invalid Date!", checkValidDate);
+	getInputGET(billAmount, "How much to bill: ", "Invalid Amount!", checkValidNumberGT0);
+	getInputGET(billCopay, "Copay: ", "Invalid Amount!", checkValidNumberGT0);
+	
+	if(billCopay != staticRef.at(4).second)
+		staticRef.at(4).second = billCopay;
+	
+	std::cout << "Was the deductible met?" << std::endl;
+		
+	do {
+		billDeductibleInput = getche();
+		std::cout << std::endl;
+		
+		if(billDeductibleInput != 'y' && billDeductibleInput != 'n') {
+			std::cout << "Invalid" << std::endl;
+		}
+		
+	} while(billDeductibleInput != 'y' && billDeductibleInput != 'n');
+	
+	if(billDeductibleInput == 'y')
+		billDeductibleMet = "YES";
+	if(billDeductibleInput == 'n')
+		billDeductibleMet = "NO";
+	
+	billRemainVisit = std::to_string(std::stoi(staticRef.at(6).second) - 1);
+	staticRef.at(6).second = billRemainVisit;
+	
+	dynamicRef.push_back(make_tuple(billDate, billAmount, billCopay, billDeductibleMet, billRemainVisit));
+	
+	std::cin.clear();
+}
+
+void writeCustomer(std::fstream &csvFile,
+					std::vector<std::pair<std::string, std::string>> &staticRef,
+					std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef,
+					std::vector<std::string> &commentRef) {
+	csvFile.clear();
+	csvFile.seekg(0);
+	
+	for(int i = 0; i < 7; i++) {
+		// Can also using [i] instead of .at(i)
+		// .at(), .first, .second return pointers if type NOT a primitive
+		// or string
+		csvFile << staticRef.at(i).first;
+		csvFile << ',';
+		csvFile << staticRef.at(i).second;
+		csvFile << '\n';
+	}
+	
+	csvFile << '\n';
+	
+	for(int idp = 0; idp < dynamicRef.size(); idp++) {
+		csvFile << std::get<0>(dynamicRef[idp]) << ",";
+		csvFile << std::get<1>(dynamicRef[idp]) << ",";
+		csvFile << std::get<2>(dynamicRef[idp]) << ",";
+		csvFile << std::get<3>(dynamicRef[idp]) << ",";
+		csvFile << std::get<4>(dynamicRef[idp]);
+		
+		csvFile << '\n';
+	}
+	
+	csvFile << '\n';
+	
+	for(int idp = 0; idp < commentRef.size(); idp++) {
+		csvFile << commentRef[idp];
+		
+		csvFile << '\n';
+	}
 }
