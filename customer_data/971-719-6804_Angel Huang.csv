@@ -1,11 +1,12 @@
 Client Name,Angel Huang
-Client Phone,9717196804
-Insurance Name,ACMEINS
-Insurance Phone,1111111111
-Copay,20$
-Number Authorized Visits,4
-Number Remaining Visits,1
+Client Phone,971-719-6804
+Insurer Name,ACME
+Insurer Phone,000-000-0000
+Client Copay,40
+Client Authorized Visits,5
+Remaining authorized visits,4
 
-Date,Amount Billed,Date Billed,Number Remaining Visits
+Date,Amount Billed,Copay,Deductible Met,Number Remaining Visits
+12/16/2021,1000,40,YES,4
 
-Comments
+Comments:
