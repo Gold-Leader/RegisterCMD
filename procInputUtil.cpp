@@ -24,8 +24,6 @@ bool checkValidPhone(std::string phone) {
 		}
 	}
 	
-	// std::cout << dashIdx[0] << dashIdx[1] << numDigit;
-	
 	return ((dashIdx[0] && dashIdx[1] && true) && numDigit == 10);
 }
 
@@ -67,35 +65,9 @@ bool checkValidNumberGT0(std::string number) {
 
 
 bool checkValidNumberLT0(std::string number) {
-	short numDigit;
-	float tmpValue;
-	
-	for(int i = 0; i < number.length(); i++) {
-		if(isdigit(number[i])) {
-			numDigit++;
-		}
-	}
-	
-	if(numDigit == number.length()) {
-		tmpValue = std::stof(number);
-	}
-	
-	return numDigit && (tmpValue <= 0);
+	return (number[0] == '-');
 }
 
 bool checkValidNumberEQ0(std::string number) {
-	short numDigit;
-	float tmpValue;
-	
-	for(int i = 0; i < number.length(); i++) {
-		if(isdigit(number[i])) {
-			numDigit++;
-		}
-	}
-	
-	if(numDigit == number.length()) {
-		tmpValue = std::stof(number);
-	}
-	
-	return numDigit && (tmpValue == 0);
+	return (number[0] == '0');
 }
