@@ -24,6 +24,9 @@ void getInputGET(std::string& target, std::string CpromptMSG, std::string Cerror
 	
 	do {
 		std::cout << CpromptMSG;
+		
+		std::cin.clear();
+		std::cin.sync();
 		std::getline(std::cin, target);
 		
 		isValid = !Fcheck(target);
@@ -45,4 +48,17 @@ void getInputCIN(std::string& target, std::string CpromptMSG, std::string Cerror
 
 void getInputCHAR(char& target, std::string CpromptMSG, std::string CerrorMSG, std::function<bool(std::string)>Fcheck) {
 	
+}
+
+void charBadInputReprint(short numRow, short numCol) {
+	Sleep(500);
+	std::cout << "\x1b[1A";
+	std::cout << "\x1b[" + std::to_string(numCol) + "D";
+	
+	for(short idp = 0; idp < numCol; idp++) {
+		std::cout << " ";
+	}
+	
+	std::cout << "\x1b[" + std::to_string(numCol) + "D";
+	std::cout << "\x1b[" + std::to_string(numRow) + "A";
 }

@@ -10,4 +10,5 @@ void getInputCIN(std::string&, std::string, std::string, std::function<bool(std:
 
 void getInputCHAR(char&, std::string, std::string, std::function<bool(std::string)>);
 
+void charBadInputReprint(short, short);
 #endif
