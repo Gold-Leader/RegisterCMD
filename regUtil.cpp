@@ -218,7 +218,7 @@ void editCustomer(std::fstream &csvFile, std::string &filePath,
 		std::cout << "File Actions:" << std::endl;
 		std::cout << "[1] - Edit Customer and Insurer Details" << std::endl;
 		std::cout << "[2] - Edit Billing and Visitation Details" << std::endl;
-		std::cout << "[3] - Edit or Add Comment" << std::endl;
+		std::cout << "[3] - Edit Comments" << std::endl;
 		std::cout << "[d] - Done" << std::endl;
 		std::cout << "Selection: ";
 		userActionInput = getche();
@@ -265,7 +265,7 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 	std::cout << "| What would you like to edit |" << std::endl;
 	std::cout << "===============================" << std::endl;
 	do {
-		std::cout << "Options:";
+		std::cout << "Options:" << std::endl;;
 		for(int idp = 0; idp < staticRef.size(); idp++) {
 			std::cout << "[" << idp + 1 << "]: " << staticRef[idp].first << std::endl;
 		}
@@ -362,6 +362,7 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 			break;
 			default:
 				std::cout << "== Not an option ==" << std::endl;
+				charBadInputReprint(10, 19);
 			break;
 		}
 		
@@ -412,9 +413,12 @@ void editComment(std::vector<std::string> &commentRef) {
 		std::cout << "Options:" << std::endl;
 		std::cout << "[1] Edit Comment:" << std::endl;
 		std::cout << "[2] Add Comment:" << std::endl;
+		std::cout << "[3] Delete Comment:" << std::endl;
 		std::cout << "[c] Cancel" << std::endl;
 		std::cout << "Selection: ";
 		usrEditInput = getche();
+		
+		std::cout << std::endl;
 		
 		switch(usrEditInput) {
 			case '1':
@@ -428,6 +432,7 @@ void editComment(std::vector<std::string> &commentRef) {
 					do {
 						std::cout << "Edit which comment: ";
 						usrEditInput = getche();
+						std::cout << std::endl;
 						
 						if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
 							std::cout << "== Not an option ==" << std::endl;
@@ -452,15 +457,43 @@ void editComment(std::vector<std::string> &commentRef) {
 				std::cout << "New Comment:" << std::endl;
 		
 				std::cin.clear();
-				std::cin >> usrEditValueInput;
+				std::cin.sync();
+				std::getline(std::cin, usrEditValueInput);
 		
 				commentRef.push_back(usrEditValueInput);
+				
+				usrEditInput = 'c';
+			break;
+			case '3':
+				std::cout << "====================" << std::endl;
+				std::cout << "| Current Comments |" << std::endl;
+				std::cout << "====================" << std::endl;
+				printData(commentRef);
+				std::cout << "====================" << std::endl;
+				
+				if(commentRef.size() > 1) {
+					do {
+						std::cout << "Delete which comment: ";
+						usrEditInput = getche();
+						std::cout << std::endl;
+						
+						if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
+							std::cout << "== Not an option ==" << std::endl;
+						}
+					} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size());
+			
+					commentRef.erase(commentRef.begin() + (usrEditInput - '0'));
+				} else {
+					std::cout << "== No comments ==" << std::endl;
+				}
 				
 				usrEditInput = 'c';
 			break;
 			case 'c':
 			break;
 			default:
+				std::cout << "== Not an option ==" << std::endl;
+				charBadInputReprint(11, 19);
 			break;
 		}
 	} while(usrEditInput != 'c');
