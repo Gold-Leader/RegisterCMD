@@ -413,6 +413,7 @@ void editComment(std::vector<std::string> &commentRef) {
 		std::cout << "[1] Edit Comment:" << std::endl;
 		std::cout << "[2] Add Comment:" << std::endl;
 		std::cout << "[c] Cancel" << std::endl;
+		std::cout << "Selection: ";
 		usrEditInput = getche();
 		
 		switch(usrEditInput) {
@@ -425,7 +426,7 @@ void editComment(std::vector<std::string> &commentRef) {
 				
 				if(commentRef.size() > 1) {
 					do {
-						std::cout << "Edit which comment: " << std::endl;
+						std::cout << "Edit which comment: ";
 						usrEditInput = getche();
 						
 						if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
@@ -437,7 +438,8 @@ void editComment(std::vector<std::string> &commentRef) {
 					std::cout << "New Comment: " << std::endl;
 					
 					std::cin.clear();
-					std::cin >> usrEditValueInput;
+					std::cin.sync();
+					std::getline(std::cin, usrEditValueInput);
 					
 					commentRef[usrEditInput - '0'] = usrEditValueInput;
 				} else {
