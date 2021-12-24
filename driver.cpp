@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 
 #include <ios>
 #include <iomanip>
@@ -24,6 +25,25 @@
 #include "customer.h"
 
 int main () {
+	system("CLS");
+	
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)
+    {
+        return false;
+    }
+
+    DWORD dwOriginalOutMode = 0;
+    if (!GetConsoleMode(hOut, &dwOriginalOutMode))
+    {
+        return false;
+    }
+
+    DWORD dwRequestedOutModes = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    DWORD dwOutMode = dwOriginalOutMode | dwRequestedOutModes;
+	
+	SetConsoleMode(hOut, dwOutMode);
+	
 	char usrOptionInput = 0;
 	std::string usrPathInput = "";
 	
@@ -80,13 +100,27 @@ int main () {
 				
 				csvFile = openFile(customer.filePath);
 
+				customer.staticData.clear();
+				customer.dynamicData.clear();
+				customer.commentData.clear();
+
 				readCustomerStatic(csvFile, customer.staticData);
 				readCustomerDynamic(csvFile, customer.dynamicData);
 				readCustomerComment(csvFile, customer.commentData);
 				
+				std::cout << "=======================" << std::endl;
+				std::cout << "Retrieved Customer Data" << std::endl;
+				std::cout << "=======================" << std::endl;
+				
 				printData(customer.staticData);
+				std::cout << std::endl;
 				printData(customer.dynamicData);
+				std::cout << std::endl;
 				printData(customer.commentData);
+				std::cout << std::endl;
+				std::cout << "=======================" << std::endl;
+				std::cout << " End of Customer Data  " << std::endl;
+				std::cout << "=======================" << std::endl;
 
 				do {
 					std::cout << "Actions:" << std::endl;
@@ -111,7 +145,6 @@ int main () {
 							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '3':
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 							csvFile.close();
 							try {
 								std::filesystem::rename("customer_data" + customer.filePath, "old_customer_data" + customer.filePath.erase(0, 13));
@@ -124,12 +157,20 @@ int main () {
 						case 'm':
 							// [m] Return to menu
 							// Update file and close
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 							csvFile.close();
 						break;
 						default:
 							// Error message
 							std::cout << "Invalid Input" << std::endl;
+							Sleep(2000);
+							std::cout << "\x1b[1A";
+							std::cout << "\x1b[13D";
+							std::cout << "             ";
+							std::cout << "\x1b[13D";
+							std::cout << "\x1b[6A";
+							std::cout << " ";
+							std::cout << "\x1b[1D";
+							
 						break;
 					}			
 				} while(usrOptionInput != 'm' && usrOptionInput != '3');
@@ -140,6 +181,10 @@ int main () {
 				std::cin.clear();
 			
 				csvFile = createCustomer("customer_data");
+				
+				customer.staticData.clear();
+				customer.dynamicData.clear();
+				customer.commentData.clear();
 				
 				readCustomerStatic(csvFile, customer.staticData);
 				readCustomerDynamic(csvFile, customer.dynamicData);
@@ -181,12 +226,19 @@ int main () {
 						case 'm':
 							// [m] Return to menu
 							// Update file and close
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 							csvFile.close();
 						break;
 						default:
 							// Error message
 							std::cout << "Invalid Input" << std::endl;
+							Sleep(2000);
+							std::cout << "\x1b[1A";
+							std::cout << "\x1b[13D";
+							std::cout << "             ";
+							std::cout << "\x1b[13D";
+							std::cout << "\x1b[6A";
+							std::cout << " ";
+							std::cout << "\x1b[1D";
 						break;
 					}			
 				} while(usrOptionInput != 'm');
@@ -199,6 +251,14 @@ int main () {
 			default:
 				// Error message
 				std::cout << "Invalid Input" << std::endl;
+				Sleep(2000);
+				std::cout << "\x1b[1A";
+				std::cout << "\x1b[13D";
+				std::cout << "             ";
+				std::cout << "\x1b[13D";
+				std::cout << "\x1b[5A";
+				std::cout << " ";
+				std::cout << "\x1b[1D";
 			break;
 		}
 	}while(usrOptionInput != 'q') ;
