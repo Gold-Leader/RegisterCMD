@@ -1,0 +1,11 @@
+Client Name,Angel Huang
+Client Phone,000-000-0000
+Insurer Name,ACME
+Insurer Phone,222-222-2222
+Client Copay,5
+Client Authorized Visits,5
+Remaining authorized visits,5
+
+Date,Amount Billed,Copay,Deductible Met,Number Remaining Visits
+
+Comments:
