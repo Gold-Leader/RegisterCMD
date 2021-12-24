@@ -265,11 +265,12 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 	std::cout << "| What would you like to edit |" << std::endl;
 	std::cout << "===============================" << std::endl;
 	do {
+		std::cout << "Options:";
 		for(int idp = 0; idp < staticRef.size(); idp++) {
 			std::cout << "[" << idp + 1 << "]: " << staticRef[idp].first << std::endl;
 		}
 		std::cout << "[c]: Cancel" << std::endl;
-		std::cout << "Option: ";
+		std::cout << "Selection: ";
 		usrEditInput = getche();
 		
 		std::cout << std::endl;
@@ -292,6 +293,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				csvFile.close();
 				std::filesystem::rename("customer_data/" + oldFileName, "customer_data/" + newFileName);
 				csvFile.open("customer_data/" + newFileName, std::fstream::out | std::fstream::in);
+				
+				usrEditInput = 'c';
 			break;
 			case '2':
 				std::cout << "Current Client Phone: " << staticRef[1].second << std::endl;
@@ -307,6 +310,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				csvFile.close();
 				std::filesystem::rename("customer_data/" + oldFileName, "customer_data/" + newFileName);
 				csvFile.open("customer_data/" + newFileName, std::fstream::out | std::fstream::in);
+				
+				usrEditInput = 'c';
 			break;
 			case '3':
 				std::cout << "Current Insurer Name:" << staticRef[2].second << std::endl;
@@ -314,6 +319,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				
 				std::getline(std::cin, usrEditValueInput);
 				staticRef[2].second = usrEditValueInput;
+				
+				usrEditInput = 'c';
 			break;
 			case '4':
 				std::cout << "Current Insurer Phone: " << staticRef[3].second << std::endl;
@@ -321,6 +328,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				
 				getInputGET(usrEditValueInput, "New phone (XXX-XXX-XXXX): ", "== Invalid phone number ==", checkValidPhone);
 				staticRef[3].second = usrEditValueInput;
+				
+				usrEditInput = 'c';
 			break;
 			case '5':
 				std::cout << "Current Client Copay: " << staticRef[4].second << std::endl;
@@ -328,6 +337,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				
 				getInputGET(usrEditValueInput, "New Copay (AMOUNT): ", "== Invalid copay ==", checkValidNumberGT0);
 				staticRef[4].second = usrEditValueInput;
+				
+				usrEditInput = 'c';
 			break;
 			case '6':
 				std::cout << "Current Authorized Visits: " << staticRef[5].second << std::endl;
@@ -335,6 +346,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 
 				getInputGET(usrEditValueInput, "New authorized visits (AMOUNT): ", "== Invalid number of visits ==", checkValidNumberGT0);
 				staticRef[5].second = usrEditValueInput;
+				
+				usrEditInput = 'c';
 			break;
 			case '7':
 				std::cout << "Current Remaining Vists: " << staticRef[6].second << std::endl;
@@ -342,6 +355,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				
 				getInputGET(usrEditValueInput, "New remaining visits (AMOUNT): ", "== Invalid number of visits ==", checkValidNumberGT0);
 				staticRef[6].second = usrEditValueInput;
+				
+				usrEditInput = 'c';
 			break;
 			case 'c':
 			break;
@@ -393,50 +408,60 @@ void editComment(std::vector<std::string> &commentRef) {
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
 	
-	std::cout << "====================" << std::endl;
-	std::cout << "| Current Comments |" << std::endl;
-	std::cout << "====================" << std::endl;
-	printData(commentRef);
-	
 	do {
 		std::cout << "Options:" << std::endl;
 		std::cout << "[1] Edit Comment:" << std::endl;
 		std::cout << "[2] Add Comment:" << std::endl;
+		std::cout << "[c] Cancel" << std::endl;
 		usrEditInput = getche();
 		
-		if(usrEditInput != '1' && usrEditInput != '2') {
-			std::cout << "Not an option!" << std::endl;
-		}
-	} while(usrEditInput != '1' && usrEditInput != '2');
-	
-	if(usrEditInput == '1') {
-		if(commentRef.size() > 1) {
-			do {
-				std::cout << "Edit which comment: " << std::endl;
-				usrEditInput = getche();
+		switch(usrEditInput) {
+			case '1':
+				std::cout << "====================" << std::endl;
+				std::cout << "| Current Comments |" << std::endl;
+				std::cout << "====================" << std::endl;
+				printData(commentRef);
+				std::cout << "====================" << std::endl;
 				
-				if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
-					std::cout << "Not an option!" << std::endl;
+				if(commentRef.size() > 1) {
+					do {
+						std::cout << "Edit which comment: " << std::endl;
+						usrEditInput = getche();
+						
+						if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
+							std::cout << "== Not an option ==" << std::endl;
+						}
+					} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size());
+			
+					std::cout << std::endl;			
+					std::cout << "New Comment: " << std::endl;
+					
+					std::cin.clear();
+					std::cin >> usrEditValueInput;
+					
+					commentRef[usrEditInput - '0'] = usrEditValueInput;
+				} else {
+					std::cout << "== No comments ==" << std::endl;
 				}
-			} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size());
-			
-			std::cout << "New Comment: " << std::endl;
-			
-			std::cin.clear();
-			std::cin >> usrEditValueInput;
-			
-			commentRef[usrEditInput - '0'] = usrEditValueInput;
-		} else {
-			std::cout << "No comments!" << std::endl;
+				
+				usrEditInput = 'c';
+			break;
+			case '2':
+				std::cout << "New Comment:" << std::endl;
+		
+				std::cin.clear();
+				std::cin >> usrEditValueInput;
+		
+				commentRef.push_back(usrEditValueInput);
+				
+				usrEditInput = 'c';
+			break;
+			case 'c':
+			break;
+			default:
+			break;
 		}
-	} else if(usrEditInput == '2') {
-		std::cout << "New Comment:" << std::endl;
-		
-		std::cin.clear();
-		std::cin >> usrEditValueInput;
-		
-		commentRef.push_back(usrEditValueInput);
-	}
+	} while(usrEditInput != 'c');
 }
 
 
