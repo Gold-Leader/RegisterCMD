@@ -241,6 +241,7 @@ void editCustomer(std::fstream &csvFile, std::string &filePath,
 			break;
 			default:
 				// Invalid
+				std::cout << "== Not an option" << std::endl;
 				charBadInputReprint(6, 13);
 			break;
 		}
@@ -383,61 +384,71 @@ void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, s
 	
 	std::string usrEditDate;
 	
+	short index = 0;
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
 	
-	std::cout << "===========================" << std::endl;
-	std::cout << "| Current Customer Visits |" << std::endl;
-	std::cout << "===========================" << std::endl;
-	printData(dynamicRef);
-	std::cout << "===========================" << std::endl;
-	
-	std::cout << "Options:" << std::endl;
-	std::cout << "[1] Edit" << std::endl;
-	std::cout << "[c] Cancel" << std::endl;
-	std::cout << "Selection: ";
-	usrEditInput = getche();
-	
-	switch(usrEditInput) {
-		case '1':
-			short index = 0;
-			
-			getInputGET(usrEditValueInput, "Date to edit (MM/DD/YYYY): ", "== Invalid Date ==", checkValidDate);
-			
-			for(short ids = 0; ids < dynamicRef.size(), ids++) {
-				if(std::get<0>(dynamicRef[idp]) == usrEditValueInput) {
-					index = ids;
-				}
-			}
-			
-			if(index) {
+	do {
+		std::cout << "===========================" << std::endl;
+		std::cout << "| Current Customer Visits |" << std::endl;
+		std::cout << "===========================" << std::endl;
+		printData(dynamicRef);
+		std::cout << "===========================" << std::endl;
+		
+		std::cout << "Options:" << std::endl;
+		std::cout << "[1] Edit" << std::endl;
+		std::cout << "[c] Cancel" << std::endl;
+		std::cout << "Selection: ";
+		usrEditInput = getche();
+		std::cout << std::endl;
+		
+		// TODO finish dynamic edit function
+		
+		switch(usrEditInput) {
+			case '1':
 				
-			}
-			
-		break;
-		case 'c':
-		break;
-		default:
-		break;
-	}
-	
+				getInputGET(usrEditValueInput, "Date to edit (MM/DD/YYYY): ", "== Invalid Date ==", checkValidDate);
+				
+				for(short ids = 0; ids < dynamicRef.size(); ids++) {
+					if(std::get<0>(dynamicRef[ids]) == usrEditValueInput) {
+						index = ids;
+					}
+				}
+				
+				if(index) {
+					std::cout << "Options:" << std::endl;
+					std::cout << "[1] Date" << std::endl;
+					std::cout << "[2] Amount Billed" << std::endl;
+					std::cout << "[3] Copay" << std::endl;
+					std::cout << "[4] Deductible Met" << std::endl;
+					std::cout << "[5] Number Remaning Visits" << std::endl;
+					std::cout << "[c] Cancel" << std::endl;
+					std::cout << "Selection: ";
+					usrEditInput = getche();
+		std::cout << std::endl;
+				} else {
+					std::cout << "= =Date not on record == " << std::endl;
+				}
+				
+			break;
+			case 'c':
+			break;
+			default:
+			break;
+		}
+	} while(usrEditValueInput != 'c');
 }
 
 void editComment(std::vector<std::string> &commentRef) {
-	// Print data
-	// Ask to edit OR add
-	// Edit or add comment
-	// Return
-	
 	std::cin.clear();
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
 	
 	do {
 		std::cout << "Options:" << std::endl;
-		std::cout << "[1] Edit Comment:" << std::endl;
-		std::cout << "[2] Add Comment:" << std::endl;
-		std::cout << "[3] Delete Comment:" << std::endl;
+		std::cout << "[1] Edit Comment" << std::endl;
+		std::cout << "[2] Add Comment" << std::endl;
+		std::cout << "[3] Delete Comment" << std::endl;
 		std::cout << "[c] Cancel" << std::endl;
 		std::cout << "Selection: ";
 		usrEditInput = getche();
@@ -446,20 +457,21 @@ void editComment(std::vector<std::string> &commentRef) {
 		
 		switch(usrEditInput) {
 			case '1':
-				std::cout << "====================" << std::endl;
-				std::cout << "| Current Comments |" << std::endl;
-				std::cout << "====================" << std::endl;
-				printData(commentRef);
-				std::cout << "====================" << std::endl;
 				
 				if(commentRef.size() > 1) {
 					do {
+						std::cout << "====================" << std::endl;
+						std::cout << "| Current Comments |" << std::endl;
+						std::cout << "====================" << std::endl;
+						printData(commentRef);
+						std::cout << "====================" << std::endl;
 						std::cout << "Edit which comment: ";
 						usrEditInput = getche();
 						std::cout << std::endl;
 						
 						if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
 							std::cout << "== Not an option ==" << std::endl;
+							charBadInputReprint(commentRef.size() + 5, 19);
 						}
 					} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size());
 			
@@ -472,6 +484,9 @@ void editComment(std::vector<std::string> &commentRef) {
 					
 					commentRef[usrEditInput - '0'] = usrEditValueInput;
 				} else {
+					std::cout << "====================" << std::endl;
+					std::cout << "| Current Comments |" << std::endl;
+					std::cout << "====================" << std::endl;
 					std::cout << "== No comments ==" << std::endl;
 				}
 				
@@ -489,20 +504,21 @@ void editComment(std::vector<std::string> &commentRef) {
 				usrEditInput = 'c';
 			break;
 			case '3':
-				std::cout << "====================" << std::endl;
-				std::cout << "| Current Comments |" << std::endl;
-				std::cout << "====================" << std::endl;
-				printData(commentRef);
-				std::cout << "====================" << std::endl;
 				
 				if(commentRef.size() > 1) {
 					do {
+						std::cout << "====================" << std::endl;
+						std::cout << "| Current Comments |" << std::endl;
+						std::cout << "====================" << std::endl;
+						printData(commentRef);
+						std::cout << "====================" << std::endl;
 						std::cout << "Delete which comment: ";
 						usrEditInput = getche();
 						std::cout << std::endl;
 						
 						if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
 							std::cout << "== Not an option ==" << std::endl;
+							charBadInputReprint(commentRef.size() + 5, 19);
 						}
 					} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size());
 			
@@ -517,7 +533,7 @@ void editComment(std::vector<std::string> &commentRef) {
 			break;
 			default:
 				std::cout << "== Not an option ==" << std::endl;
-				charBadInputReprint(11, 19);
+				charBadInputReprint(6, 19);
 			break;
 		}
 	} while(usrEditInput != 'c');
@@ -532,40 +548,98 @@ void billCustomer(std::vector<std::pair<std::string, std::string>> &staticRef,
 	std::string billDeductibleMet;
 	std::string billRemainVisit;
 	
+	char usrEditInput = ' ';
 	char billDeductibleInput = ' ';
 	
-	std::cin.clear();
+	std::cout << "====================" << std::endl;
+	std::cout << "| Billing Customer |" << std::endl;
+	std::cout << "====================" << std::endl;
 	
-	getInputGET(billDate, "Date of service: ", "== Invalid Date ==", checkValidDate);
-	getInputGET(billAmount, "Service bill: ", "== Invalid Amount ==", checkValidNumberGT0);
-	getInputGET(billCopay, "Copay: ", "== Invalid Amount ==", checkValidNumberGT0);
+	if(checkValidNumberLT0(staticRef[6].second) || checkValidNumberEQ0(staticRef[6].second)) {
+		std::cout << "=============================" << std::endl;
+		std::cout << "|          Warning          |" << std::endl;
+		std::cout << "| No more visits authorized |" << std::endl;
+		std::cout << "=============================" << std::endl;
+	}
 	
-	if(billCopay != staticRef.at(4).second)
-		staticRef.at(4).second = billCopay;
-	
-	std::cout << "Was the deductible met?" << std::endl;
-		
 	do {
-		billDeductibleInput = getche();
+		std::cout << "Options:" << std::endl;
+		std::cout << "[1] Continue" << std::endl;
+		std::cout << "[c] Cancel" << std::endl;
+		std::cout << "Selection: ";
+		usrEditInput = getche();
 		std::cout << std::endl;
 		
-		if(billDeductibleInput != 'y' && billDeductibleInput != 'n') {
-			std::cout << "Invalid" << std::endl;
+		std::cin.clear();
+		
+		switch(usrEditInput) {
+			case '1':
+				getInputGET(billDate, "Date of service (MM/DD/YYYY): ", "== Invalid Date ==", checkValidDate);
+				getInputGET(billAmount, "Service bill: ", "== Invalid Amount ==", checkValidNumberGT0);
+				
+				
+				do {
+					std::cout << "Copay changed?" << std::endl;
+					std::cout << "[1] Yes" << std::endl;
+					std::cout << "[2] No" << std::endl;
+					std::cout << "Selection: ";
+					usrEditInput = getche();
+					std::cout << std::endl;
+					
+					if(usrEditInput != '1' && usrEditInput != '2') {
+						std::cout << "== Not an option ==" << std::endl;
+						charBadInputReprint(4, 19);
+					}
+					
+				} while(usrEditInput != '1' && usrEditInput != '2');
+				
+				if(usrEditInput == '1') {
+					getInputGET(billCopay, "New copay: ", "== Invalid Amount ==", checkValidNumberGT0);					
+					staticRef.at(4).second = billCopay;
+				} else {
+					billCopay = staticRef.at(4).second;
+				}
+				
+					
+				do {
+					std::cout << "Was the deductible met?" << std::endl;
+					std::cout << "[1] Yes" << std::endl;
+					std::cout << "[2] No" << std::endl;
+					std::cout << "Selection: ";
+					billDeductibleInput = getche();
+					std::cout << std::endl;
+					
+					if(billDeductibleInput != '1' && billDeductibleInput != '2') {
+						std::cout << "== Not an option ==" << std::endl;
+						charBadInputReprint(4, 19);
+					}
+					
+				} while(billDeductibleInput != '1' && billDeductibleInput != '2');
+				
+				if(billDeductibleInput == '1') {
+					billDeductibleMet = "YES";
+				} else {
+					billDeductibleMet = "NO";
+				}
+				
+				billRemainVisit = std::to_string(std::stoi(staticRef.at(6).second) - 1);
+				staticRef.at(6).second = billRemainVisit;
+				
+				dynamicRef.push_back(make_tuple(billDate, billAmount, billCopay, billDeductibleMet, billRemainVisit));
+				
+				std::cin.clear();
+				
+				usrEditInput = 'c';
+			break;
+			case 'c':
+			break;
+			default:
+				std::cout << "== Not an option ==" << std::endl;
+				charBadInputReprint(4, 19);
+			break;
 		}
 		
-	} while(billDeductibleInput != 'y' && billDeductibleInput != 'n');
-	
-	if(billDeductibleInput == 'y')
-		billDeductibleMet = "YES";
-	if(billDeductibleInput == 'n')
-		billDeductibleMet = "NO";
-	
-	billRemainVisit = std::to_string(std::stoi(staticRef.at(6).second) - 1);
-	staticRef.at(6).second = billRemainVisit;
-	
-	dynamicRef.push_back(make_tuple(billDate, billAmount, billCopay, billDeductibleMet, billRemainVisit));
-	
-	std::cin.clear();
+	} while(usrEditInput != 'c');
 }
 
 void writeCustomer(std::fstream &csvFile, std::string &filePath,
@@ -580,9 +654,6 @@ void writeCustomer(std::fstream &csvFile, std::string &filePath,
 	csvFile.seekg(0);
 	
 	for(int i = 0; i < 7; i++) {
-		// Can also using [i] instead of .at(i)
-		// .at(), .first, .second return pointers if type NOT a primitive
-		// or string
 		csvFile << staticRef.at(i).first;
 		csvFile << ',';
 		csvFile << staticRef.at(i).second;
