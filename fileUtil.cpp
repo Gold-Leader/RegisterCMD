@@ -21,16 +21,19 @@
 void getDir(std::string dirPath, std::vector<std::string> &dirFiles) {
 	std::filesystem::path directory{dirPath};
 	
+	dirFiles.clear();
+	
 	for(auto& directoryEntry: std::filesystem::directory_iterator{directory}) {
-		// std::cout << directoryEntry.path().string() << std::endl;
-		dirFiles.push_back(directoryEntry.path().string());		// Explicit conversion
+		dirFiles.push_back(directoryEntry.path().string());
 	}
 }
 
 void printDir(std::vector<std::string> &dirFiles) {
 	for(int idp = 0; idp < dirFiles.size(); idp++) {
-		std::cout << dirFiles[idp] << std::endl;
-		// dirFiles.push_back(directoryEntry.path().string());		// Explicit conversion
+		dirFiles[idp].erase(dirFiles[idp].end() - 4, dirFiles[idp].end());
+		dirFiles[idp].erase(0, 14);
+		
+		std::cout << std::to_string(idp) + ": " << dirFiles[idp] << std::endl;
 	}
 }
 
