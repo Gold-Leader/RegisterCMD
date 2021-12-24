@@ -386,17 +386,41 @@ void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, s
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
 	
-	std::cout << "Current Customer Visits" << std::endl;
+	std::cout << "===========================" << std::endl;
+	std::cout << "| Current Customer Visits |" << std::endl;
+	std::cout << "===========================" << std::endl;
 	printData(dynamicRef);
+	std::cout << "===========================" << std::endl;
 	
-	std::cout << "Which entry at which date would you like to edit:" << std::endl;
+	std::cout << "Options:" << std::endl;
+	std::cout << "[1] Edit" << std::endl;
+	std::cout << "[c] Cancel" << std::endl;
+	std::cout << "Selection: ";
+	usrEditInput = getche();
 	
+	switch(usrEditInput) {
+		case '1':
+			short index = 0;
+			
+			getInputGET(usrEditValueInput, "Date to edit (MM/DD/YYYY): ", "== Invalid Date ==", checkValidDate);
+			
+			for(short ids = 0; ids < dynamicRef.size(), ids++) {
+				if(std::get<0>(dynamicRef[idp]) == usrEditValueInput) {
+					index = ids;
+				}
+			}
+			
+			if(index) {
+				
+			}
+			
+		break;
+		case 'c':
+		break;
+		default:
+		break;
+	}
 	
-	// Print data
-	// Ask to edit OR add
-	// Call check functions as needed
-	// Edit or add comment
-	// Return
 }
 
 void editComment(std::vector<std::string> &commentRef) {
@@ -512,9 +536,9 @@ void billCustomer(std::vector<std::pair<std::string, std::string>> &staticRef,
 	
 	std::cin.clear();
 	
-	getInputGET(billDate, "Date of service: ", "Invalid Date!", checkValidDate);
-	getInputGET(billAmount, "How much to bill: ", "Invalid Amount!", checkValidNumberGT0);
-	getInputGET(billCopay, "Copay: ", "Invalid Amount!", checkValidNumberGT0);
+	getInputGET(billDate, "Date of service: ", "== Invalid Date ==", checkValidDate);
+	getInputGET(billAmount, "Service bill: ", "== Invalid Amount ==", checkValidNumberGT0);
+	getInputGET(billCopay, "Copay: ", "== Invalid Amount ==", checkValidNumberGT0);
 	
 	if(billCopay != staticRef.at(4).second)
 		staticRef.at(4).second = billCopay;
