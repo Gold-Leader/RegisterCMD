@@ -54,8 +54,6 @@ int main () {
 	
 	std::fstream csvFile;
 	
-	getDir("customer_data", fileDir);
-	
 	do {
 		std::cout << "==============================" << std::endl;
 		std::cout << "|  Welcome to Amy's Massage  |" << std::endl;
@@ -76,6 +74,9 @@ int main () {
 		switch(usrOptionInput) {
 			case '1':
 				system("CLS");
+				
+				getDir("customer_data", fileDir);
+				
 				std::cout << "===================" << std::endl;
 				std::cout << "| Customer Lookup |" << std::endl;
 				std::cout << "===================" << std::endl;
@@ -262,7 +263,7 @@ int main () {
 			default:
 				// Error message
 				std::cout << "== Invalid Input ==" << std::endl;
-				charBadInputReprint(5, 19);
+				charBadInputReprint(10, 19);
 			break;
 		}
 	}while(usrOptionInput != 'q') ;
