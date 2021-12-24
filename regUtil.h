@@ -15,14 +15,16 @@ void readCustomerStatic(std::fstream&, std::vector<std::pair<std::string, std::s
 void readCustomerDynamic(std::fstream&, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
 void readCustomerComment(std::fstream&, std::vector<std::string>&);
 
-void printCSV(std::fstream&);
 void printData(std::vector<std::pair<std::string, std::string>>&);
 void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
 void printData(std::vector<std::string>&);
 
-void editCustomer(std::vector<std::pair<std::string, std::string>>&, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&, std::vector<std::string>&);
+void editCustomer(std::fstream&, std::string&,
+				std::vector<std::pair<std::string, std::string>>&,
+				std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&,
+				std::vector<std::string>&);
 
-void editStatic(std::vector<std::pair<std::string, std::string>>&);
+void editStatic(std::fstream&, std::string&, std::vector<std::pair<std::string, std::string>>&);
 void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
 void editComment(std::vector<std::string>&);
 

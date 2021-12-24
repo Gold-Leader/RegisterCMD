@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <conio.h>
 
+#include <filesystem>
+
 #include "regUtil.h"
 #include "procInputUtil.h"
 #include "getInputUtil.h"
@@ -38,20 +40,30 @@ std::fstream createCustomer(std::string dirParam) {
 	
 	// A " " char appears to be delimiter for << input stream
 	// Use getline for strings with " " chars or potential delimiters
-	std::cout << "Input customer details." << std::endl;
+	std::cout << "==========================" << std::endl;
+	std::cout << "| Input customer details |" << std::endl;
+	std::cout << "==========================" << std::endl;
 	std::cout << "Customer name (First Last): ";
+	
+	std::cin.clear();
+	std::cin.sync();
 	std::getline(std::cin, cusName);
 	
-	getInputGET(cusPhone, "Customer phone (XXX-XXX-XXXX): ", "That does not appear to be a valid phone number.", checkValidPhone);
+	getInputGET(cusPhone, "Customer phone (XXX-XXX-XXXX): ", "== Invalid phone number ==", checkValidPhone);
 	
-	std::cout << "Input insurer details." << std::endl;
+	std::cout << "===========================" << std::endl;
+	std::cout << "| Input insurance details |" << std::endl;
+	std::cout << "===========================" << std::endl;
 	std::cout << "Insurer name (Name): ";
+	
+	std::cin.clear();
+	std::cin.sync();
 	std::getline(std::cin, insName);
 	
-	getInputGET(insPhone, "Insurer phone (XXX-XXX-XXXX): ", "That does not appear to be a valid phone number.", checkValidPhone);
+	getInputGET(insPhone, "Insurer phone (XXX-XXX-XXXX): ", "== Invalid phone number ==", checkValidPhone);
 	
-	getInputGET(cusCopay, "Copay (AMOUNT): ", "Invalid copay.", checkValidNumberGT0);
-	getInputGET(cusAVisit, "Number of authorized visits (AMOUNT): ", "Invalid number of visits", checkValidNumberGT0);
+	getInputGET(cusCopay, "Copay (AMOUNT): ", "== Invalid copay ==", checkValidNumberGT0);
+	getInputGET(cusAVisit, "Number of authorized visits (AMOUNT): ", "== Invalid number of visits ==", checkValidNumberGT0);
 	
 	staticData.push_back({"Client Name", cusName});
 	staticData.push_back({"Client Phone", cusPhone});
@@ -107,24 +119,6 @@ std::fstream createCustomer(std::string dirParam) {
 	csvOutputFile.open(fileName, std::fstream::out | std::fstream::in);
 	
 	return csvOutputFile;
-}
-
-void printCSV(std::fstream& csvFile) {
-	csvFile.clear();
-	// Files are zero-indexed
-	csvFile.seekg(0);
-	
-	std::string input = "";
-	
-	for(int idp = 0; idp < 6; idp++) {
-		std::getline(csvFile, input);
-		std::cout << input << std::endl;
-	}
-	
-	while(!csvFile.eof()) {
-		std::getline(csvFile, input);
-		std::cout << input << std::endl;
-	}
 }
 
 void readCustomerStatic(std::fstream& csvFile, std::vector<std::pair<std::string, std::string>> &staticRef) {
@@ -184,7 +178,7 @@ void readCustomerComment(std::fstream& csvFile, std::vector<std::string> &commen
 
 void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
 	for(int idp = 0; idp < staticRef.size(); idp++) {
-		std::cout << staticRef[idp].first  << " | ";
+		std::cout << staticRef[idp].first << std::setw(31 - staticRef[idp].first.length()) << " | ";
 		std::cout << staticRef[idp].second;
 		
 		std::cout << std::endl;
@@ -193,10 +187,10 @@ void printData(std::vector<std::pair<std::string, std::string>> &staticRef) {
 
 void printData(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	for(int idp = 0; idp < dynamicRef.size(); idp++) {
-		std::cout << std::get<0>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<1>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<2>(dynamicRef[idp]) << " | ";
-		std::cout << std::get<3>(dynamicRef[idp]) << " | ";
+		std::cout << std::get<0>(dynamicRef[idp]) << std::setw(13 - std::get<0>(dynamicRef[idp]).length()) << " | ";
+		std::cout << std::get<1>(dynamicRef[idp]) << std::setw(17 - std::get<1>(dynamicRef[idp]).length()) << " | ";
+		std::cout << std::get<2>(dynamicRef[idp]) << std::setw(8 - std::get<2>(dynamicRef[idp]).length()) << " | ";
+		std::cout << std::get<3>(dynamicRef[idp]) << std::setw(18 - std::get<3>(dynamicRef[idp]).length()) << " | ";
 		std::cout << std::get<4>(dynamicRef[idp]);
 		
 		std::cout << std::endl;
@@ -205,17 +199,23 @@ void printData(std::vector<std::tuple<std::string, std::string, std::string, std
 
 void printData(std::vector<std::string> &commentRef) {
 	for(int idp = 0; idp < commentRef.size(); idp++) {
-		std::cout << commentRef[idp] << std::endl;
+		if(idp) {
+			std::cout << std::to_string(idp) + ": " << commentRef[idp] << std::endl;			
+		} else {
+			std::cout << commentRef[idp] << std::endl;			
+		}
 	}
 }
 
 
-void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef, std::vector<std::string> &commentRef) {
+void editCustomer(std::fstream &csvFile, std::string &filePath,
+					std::vector<std::pair<std::string, std::string>> &staticRef,
+					std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef,
+					std::vector<std::string> &commentRef) {
 	char userActionInput = 0;
 	
-	
 	do {
-		std::cout << "Actions:" << std::endl;
+		std::cout << "File Actions:" << std::endl;
 		std::cout << "[1] - Edit Customer and Insurer Details" << std::endl;
 		std::cout << "[2] - Edit Billing and Visitation Details" << std::endl;
 		std::cout << "[3] - Edit or Add Comment" << std::endl;
@@ -225,64 +225,139 @@ void editCustomer(std::vector<std::pair<std::string, std::string>> &staticRef, s
 		
 		switch(userActionInput) {
 			case '1':
-				// Edit static stuff/customer and insurer details
-				editStatic(staticRef);
+				system("CLS");
+				editStatic(csvFile, filePath, staticRef);
 			break;
 			case '2':
 				// Edit a visitation detail
 				// editDynamic(dynamicRef);
 			break;
 			case '3':
-				// Add/remove a comment
-				// editComment(commentRef);
+				system("CLS");
+				editComment(commentRef);
 			break;
 			case 'd':
 				// Quit
 			break;
 			default:
 				// Invalid
+				charBadInputReprint(6, 13);
 			break;
 		}
 	} while(userActionInput != 'd');
 }
 
 
-void editStatic(std::vector<std::pair<std::string, std::string>> &staticRef) {
-	// Print data
-	// Ask which one to edit
-	// Call check functions as needed
-	// Edit the value
-	// Return
-	std::cin.clear();
-	
+void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::pair<std::string, std::string>> &staticRef) {
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
+	std::string oldFileName = "";
+	std::string newFileName = "";
 	
-	std::cout << "Current Customer/Insurer Details" << std::endl;
+	std::cin.clear();
+	
+	std::cout << "====================================" << std::endl;
+	std::cout << "| Current Customer/Insurer Details |" << std::endl;
+	std::cout << "====================================" << std::endl;
 	printData(staticRef);
 	
-	std::cout << "What would you like to edit:" << std::endl;
-	for(int idp = 0; idp < staticRef.size(); idp++) {
-		std::cout << idp << ": " << staticRef[idp].first << std::endl;
-	}
+	std::cout << "===============================" << std::endl;
+	std::cout << "| What would you like to edit |" << std::endl;
+	std::cout << "===============================" << std::endl;
 	do {
+		for(int idp = 0; idp < staticRef.size(); idp++) {
+			std::cout << "[" << idp + 1 << "]: " << staticRef[idp].first << std::endl;
+		}
+		std::cout << "[c]: Cancel" << std::endl;
 		std::cout << "Option: ";
 		usrEditInput = getche();
 		
-		// usrEditInput is a character but can be converted to an integer equivalent via 'char' - '0'
-		// Boundaries are between 0 and size of staticRef
-		if(usrEditInput - '0' < 0 || usrEditInput - '0' >= staticRef.size()) {
-			std::cout << "Not an option!" << std::endl;
+		std::cout << std::endl;
+
+		std::cin.clear();
+		std::cin.sync();
+
+		switch(usrEditInput) {
+			case '1':
+				std::cout << "Current Client Name: " << staticRef[0].second << std::endl;
+				std::cout << "New value: ";
+				
+				oldFileName = staticRef[1].second + "_" + staticRef[0].second + ".csv";
+				
+				std::getline(std::cin, usrEditValueInput);
+				staticRef[0].second = usrEditValueInput;
+				
+				newFileName = staticRef[1].second + "_" + usrEditValueInput + ".csv";
+				
+				csvFile.close();
+				std::filesystem::rename("customer_data/" + oldFileName, "customer_data/" + newFileName);
+				csvFile.open("customer_data/" + newFileName, std::fstream::out | std::fstream::in);
+			break;
+			case '2':
+				std::cout << "Current Client Phone: " << staticRef[1].second << std::endl;
+				std::cout << "New value: ";
+				
+				oldFileName = staticRef[1].second + "_" + staticRef[0].second + ".csv";
+				
+				getInputGET(usrEditValueInput, "New phone (XXX-XXX-XXXX): ", "== Invalid phone number ==", checkValidPhone);
+				staticRef[1].second = usrEditValueInput;
+				
+				newFileName = usrEditValueInput + "_" + staticRef[0].second + ".csv";
+				
+				csvFile.close();
+				std::filesystem::rename("customer_data/" + oldFileName, "customer_data/" + newFileName);
+				csvFile.open("customer_data/" + newFileName, std::fstream::out | std::fstream::in);
+			break;
+			case '3':
+				std::cout << "Current Insurer Name:" << staticRef[2].second << std::endl;
+				std::cout << "New value: ";
+				
+				std::getline(std::cin, usrEditValueInput);
+				staticRef[2].second = usrEditValueInput;
+			break;
+			case '4':
+				std::cout << "Current Insurer Phone: " << staticRef[3].second << std::endl;
+				std::cout << "New value: ";
+				
+				getInputGET(usrEditValueInput, "New phone (XXX-XXX-XXXX): ", "== Invalid phone number ==", checkValidPhone);
+				staticRef[3].second = usrEditValueInput;
+			break;
+			case '5':
+				std::cout << "Current Client Copay: " << staticRef[4].second << std::endl;
+				std::cout << "New value: ";
+				
+				getInputGET(usrEditValueInput, "New Copay (AMOUNT): ", "== Invalid copay ==", checkValidNumberGT0);
+				staticRef[4].second = usrEditValueInput;
+			break;
+			case '6':
+				std::cout << "Current Authorized Visits: " << staticRef[5].second << std::endl;
+				std::cout << "New value: ";
+
+				getInputGET(usrEditValueInput, "New authorized visits (AMOUNT): ", "== Invalid number of visits ==", checkValidNumberGT0);
+				staticRef[5].second = usrEditValueInput;
+			break;
+			case '7':
+				std::cout << "Current Remaining Vists: " << staticRef[6].second << std::endl;
+				std::cout << "New value: ";
+				
+				getInputGET(usrEditValueInput, "New remaining visits (AMOUNT): ", "== Invalid number of visits ==", checkValidNumberGT0);
+				staticRef[6].second = usrEditValueInput;
+			break;
+			case 'c':
+			break;
+			default:
+				std::cout << "== Not an option ==" << std::endl;
+			break;
 		}
 		
-	} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= staticRef.size());
-	
-	std::cout << "Current value: " << staticRef[usrEditInput - '0'].first << staticRef[usrEditInput - '0'].second << std::endl;
-	std::cout << "New value: ";
-	std::getline(std::cin, usrEditValueInput);
-	
-	staticRef[usrEditInput - '0'].second = usrEditValueInput;
+	} while(usrEditInput != 'c');
+
+
+	std::cout << "================================" << std::endl;
+	std::cout << "| New Customer/Insurer Details |" << std::endl;
+	std::cout << "================================" << std::endl;
 	printData(staticRef);
+	std::cout << "================================" << std::endl;
 	
 	return;
 }
@@ -315,6 +390,53 @@ void editComment(std::vector<std::string> &commentRef) {
 	// Return
 	
 	std::cin.clear();
+	char usrEditInput = 0;
+	std::string usrEditValueInput = "";
+	
+	std::cout << "====================" << std::endl;
+	std::cout << "| Current Comments |" << std::endl;
+	std::cout << "====================" << std::endl;
+	printData(commentRef);
+	
+	do {
+		std::cout << "Options:" << std::endl;
+		std::cout << "[1] Edit Comment:" << std::endl;
+		std::cout << "[2] Add Comment:" << std::endl;
+		usrEditInput = getche();
+		
+		if(usrEditInput != '1' && usrEditInput != '2') {
+			std::cout << "Not an option!" << std::endl;
+		}
+	} while(usrEditInput != '1' && usrEditInput != '2');
+	
+	if(usrEditInput == '1') {
+		if(commentRef.size() > 1) {
+			do {
+				std::cout << "Edit which comment: " << std::endl;
+				usrEditInput = getche();
+				
+				if(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size()) {
+					std::cout << "Not an option!" << std::endl;
+				}
+			} while(usrEditInput - '0' < 0 || usrEditInput - '0' >= commentRef.size());
+			
+			std::cout << "New Comment: " << std::endl;
+			
+			std::cin.clear();
+			std::cin >> usrEditValueInput;
+			
+			commentRef[usrEditInput - '0'] = usrEditValueInput;
+		} else {
+			std::cout << "No comments!" << std::endl;
+		}
+	} else if(usrEditInput == '2') {
+		std::cout << "New Comment:" << std::endl;
+		
+		std::cin.clear();
+		std::cin >> usrEditValueInput;
+		
+		commentRef.push_back(usrEditValueInput);
+	}
 }
 
 
@@ -396,6 +518,8 @@ void writeCustomer(std::fstream &csvFile,
 	for(int idp = 0; idp < commentRef.size(); idp++) {
 		csvFile << commentRef[idp];
 		
-		csvFile << '\n';
+		if(idp < commentRef.size() - 1) {
+			csvFile << '\n';
+		}
 	}
 }
