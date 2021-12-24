@@ -62,20 +62,7 @@ bool checkValidNumber(std::string number) {
 }
 
 bool checkValidNumberGT0(std::string number) {
-	short numDigit = 0;
-	float tmpValue = 0;
-	
-	for(int i = 0; i < number.length(); i++) {
-		if(isdigit(number[i])) {
-			numDigit++;
-		}
-	}
-	
-	if(numDigit == number.length()) {
-		tmpValue = std::stof(number);
-	}
-	
-	return numDigit && (tmpValue >= 0);
+	return !(number[0] == '-');
 }
 
 
