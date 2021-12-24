@@ -76,6 +76,9 @@ int main () {
 		switch(usrOptionInput) {
 			case '1':
 				system("CLS");
+				std::cout << "===================" << std::endl;
+				std::cout << "| Customer Lookup |" << std::endl;
+				std::cout << "===================" << std::endl;
 				do {
 					std::cout << "Input customer phone number (XXX-XXX-XXXX): ";
 					std::cin >> usrPathInput;
@@ -97,7 +100,7 @@ int main () {
 					
 					std::cout << "=====================================" << std::endl;
 					std::cout << "| Please verify the customer exists |" << std::endl;
-					std::cout << "|        Customers in database      |" << std::endl;
+					std::cout << "|            in database            |" << std::endl;
 					std::cout << "=====================================" << std::endl;
 					
 					printDir(fileDir);
@@ -107,9 +110,8 @@ int main () {
 					std::cout << "=============================" << std::endl;					
 					
 					while(!getch()) {
-						
+						Sleep(1);
 					}
-
 					break;
 				}
 				
@@ -155,7 +157,7 @@ int main () {
 						case '2':
 							// [2] Update/Edit
 							system("CLS");
-							editCustomer(customer.staticData, customer.dynamicData, customer.commentData);
+							editCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '3':
@@ -186,7 +188,9 @@ int main () {
 			
 			case '2':
 				system("CLS");
-				std::cin.clear();
+				std::cout << "=====================" << std::endl;
+				std::cout << "| Customer Creation |" << std::endl;
+				std::cout << "=====================" << std::endl;
 			
 				csvFile = createCustomer("customer_data");
 				
@@ -198,25 +202,25 @@ int main () {
 				readCustomerDynamic(csvFile, customer.dynamicData);
 				readCustomerComment(csvFile, customer.commentData);
 				
-				std::cout << "===========================" << std::endl;
-				std::cout << "| Retrieved Customer Data |" << std::endl;
-				std::cout << "===========================" << std::endl;
+				std::cout << "=====================" << std::endl;
+				std::cout << "| New Customer Data |" << std::endl;
+				std::cout << "=====================" << std::endl;
 				
 				printData(customer.staticData);
 				std::cout << std::endl;
 				printData(customer.dynamicData);
 				std::cout << std::endl;
 				printData(customer.commentData);
-				std::cout << "===========================" << std::endl;
+				std::cout << "=====================" << std::endl;
 				
 				// Update fileDir vector
 				getDir("customer_data", fileDir);
+				customer.filePath = searchDir(fileDir, customer.staticData[1].second);
 
 				do {
 					std::cout << "File Actions:" << std::endl;
 					std::cout << "[1] - Bill Customer" << std::endl;
 					std::cout << "[2] - Edit Customer" << std::endl;
-					std::cout << "[3] - Delete Customer" << std::endl;
 					std::cout << "[m] - Return to Menu" << std::endl;
 					std::cout << "Selection: ";
 					
@@ -233,11 +237,8 @@ int main () {
 						case '2':
 							// [2] Update/Edit
 							system("CLS");
-							editCustomer(customer.staticData, customer.dynamicData, customer.commentData);
+							editCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
-						break;
-						case '3':
-							// [3] Delete
 						break;
 						case 'm':
 							// [m] Return to menu
@@ -248,7 +249,7 @@ int main () {
 						default:
 							// Error message
 							std::cout << "== Invalid Input ==" << std::endl;
-							charBadInputReprint(6, 19);
+							charBadInputReprint(5, 19);
 						break;
 					}			
 				} while(usrOptionInput != 'm');
