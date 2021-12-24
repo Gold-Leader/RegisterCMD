@@ -31,7 +31,7 @@ void editComment(std::vector<std::string>&);
 void billCustomer(std::vector<std::pair<std::string, std::string>> &,
 					std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
 
-void writeCustomer(std::fstream&,
+void writeCustomer(std::fstream&, std::string&,
 					std::vector<std::pair<std::string, std::string>> &,
 					std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&,
 					std::vector<std::string>&);

@@ -153,13 +153,13 @@ int main () {
 							// [1] Bill
 							system("CLS");
 							billCustomer(customer.staticData, customer.dynamicData);
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '2':
 							// [2] Update/Edit
 							system("CLS");
 							editCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '3':
 							csvFile.close();
@@ -233,13 +233,13 @@ int main () {
 							// [1] Bill
 							system("CLS");
 							billCustomer(customer.staticData, customer.dynamicData);
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '2':
 							// [2] Update/Edit
 							system("CLS");
 							editCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
-							writeCustomer(csvFile, customer.staticData, customer.dynamicData, customer.commentData);
+							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case 'm':
 							// [m] Return to menu

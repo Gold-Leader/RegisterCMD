@@ -544,10 +544,14 @@ void billCustomer(std::vector<std::pair<std::string, std::string>> &staticRef,
 	std::cin.clear();
 }
 
-void writeCustomer(std::fstream &csvFile,
+void writeCustomer(std::fstream &csvFile, std::string &filePath,
 					std::vector<std::pair<std::string, std::string>> &staticRef,
 					std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef,
 					std::vector<std::string> &commentRef) {
+	csvFile.close();
+	
+	csvFile.open(filePath, std::fstream::out | std::fstream::trunc);
+	
 	csvFile.clear();
 	csvFile.seekg(0);
 	
