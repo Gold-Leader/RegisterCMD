@@ -109,7 +109,7 @@ std::fstream createCustomer(std::string dirParam) {
 	csvOutputFile << "Date,Amount Billed,Copay,Deductible Met,Number Remaining Visits";
 	csvOutputFile << '\n';
 	csvOutputFile << '\n';
-	csvOutputFile << "Comments:";
+	csvOutputFile << "Comments";
 	
 	// std::cout << "Done!" << std::endl;
 	
@@ -222,15 +222,16 @@ void editCustomer(std::fstream &csvFile, std::string &filePath,
 		std::cout << "[d] - Done" << std::endl;
 		std::cout << "Selection: ";
 		userActionInput = getche();
+		std::cout << std::endl;
 		
 		switch(userActionInput) {
 			case '1':
 				system("CLS");
-				editStatic(csvFile, filePath, staticRef);
+				editStatic(csvFile, filePath, staticRef, dynamicRef);
 			break;
 			case '2':
 				// Edit a visitation detail
-				// editDynamic(dynamicRef);
+				editDynamic(staticRef, dynamicRef);
 			break;
 			case '3':
 				system("CLS");
@@ -249,7 +250,9 @@ void editCustomer(std::fstream &csvFile, std::string &filePath,
 }
 
 
-void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::pair<std::string, std::string>> &staticRef) {
+void editStatic(std::fstream &csvFile, std::string &filePath,
+				std::vector<std::pair<std::string, std::string>> &staticRef,
+				std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	char usrEditInput = 0;
 	std::string usrEditValueInput = "";
 	std::string oldFileName = "";
@@ -290,6 +293,7 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				staticRef[0].second = usrEditValueInput;
 				
 				newFileName = staticRef[1].second + "_" + usrEditValueInput + ".csv";
+				filePath = "customer_data/" + newFileName;
 				
 				csvFile.close();
 				std::filesystem::rename("customer_data/" + oldFileName, "customer_data/" + newFileName);
@@ -307,6 +311,7 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				staticRef[1].second = usrEditValueInput;
 				
 				newFileName = usrEditValueInput + "_" + staticRef[0].second + ".csv";
+				filePath = "customer_data/" + newFileName;
 				
 				csvFile.close();
 				std::filesystem::rename("customer_data/" + oldFileName, "customer_data/" + newFileName);
@@ -348,6 +353,12 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 				getInputGET(usrEditValueInput, "New authorized visits (AMOUNT): ", "== Invalid number of visits ==", checkValidNumberGT0);
 				staticRef[5].second = usrEditValueInput;
 				
+				for(short ids = 1; ids < dynamicRef.size(); ids++) {
+					std::get<4>(dynamicRef[ids]) = std::to_string(stoi(usrEditValueInput) - ids);
+				}
+				
+				staticRef[6].second = std::get<4>(dynamicRef[dynamicRef.size() - 1]);
+				
 				usrEditInput = 'c';
 			break;
 			case '7':
@@ -379,7 +390,8 @@ void editStatic(std::fstream &csvFile, std::string &filePath, std::vector<std::p
 	return;
 }
 
-void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
+void editDynamic(std::vector<std::pair<std::string, std::string>> &staticRef,
+				std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>> &dynamicRef) {
 	std::cin.clear();
 	
 	std::string usrEditDate;
@@ -402,7 +414,10 @@ void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, s
 		usrEditInput = getche();
 		std::cout << std::endl;
 		
-		// TODO finish dynamic edit function
+		if(dynamicRef.size() <= 1) {
+			usrEditInput = 'c';
+			std::cout << "== No visits on record ==" << std::endl;
+		}
 		
 		switch(usrEditInput) {
 			case '1':
@@ -416,27 +431,97 @@ void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, s
 				}
 				
 				if(index) {
-					std::cout << "Options:" << std::endl;
-					std::cout << "[1] Date" << std::endl;
-					std::cout << "[2] Amount Billed" << std::endl;
-					std::cout << "[3] Copay" << std::endl;
-					std::cout << "[4] Deductible Met" << std::endl;
-					std::cout << "[5] Number Remaning Visits" << std::endl;
-					std::cout << "[c] Cancel" << std::endl;
-					std::cout << "Selection: ";
-					usrEditInput = getche();
-		std::cout << std::endl;
+					do {
+						std::cout << "Options:" << std::endl;
+						std::cout << "[1] Date" << std::endl;
+						std::cout << "[2] Amount Billed" << std::endl;
+						std::cout << "[3] Copay" << std::endl;
+						std::cout << "[4] Deductible Met" << std::endl;
+						std::cout << "[5] Number Remaning Visits" << std::endl;
+						std::cout << "[c] Cancel" << std::endl;
+						std::cout << "Selection: ";
+						usrEditInput = getche();
+						std::cout << std::endl;
+						
+						switch(usrEditInput) {
+							case '1':
+								std::cout << "Current date: " << std::get<0>(dynamicRef[index]) << std::endl;
+								std::cout << "New date (MM/DD/YYYY): ";
+								
+								getInputGET(usrEditValueInput, "New date: ", "== Invalid date ==", checkValidDate);
+								std::get<0>(dynamicRef[index]) = usrEditValueInput;
+								
+								usrEditInput = 'c';
+							break;
+							case '2':
+								std::cout << "Current bill: " << std::get<1>(dynamicRef[index]) << std::endl;
+								std::cout << "New value: ";
+								
+								getInputGET(usrEditValueInput, "New bill: ", "== Invalid amount ==", checkValidNumberGT0);
+								std::get<1>(dynamicRef[index]) = usrEditValueInput;
+								
+								usrEditInput = 'c';
+							break;
+							case '3':
+								std::cout << "Current copay: " << std::get<2>(dynamicRef[index]) << std::endl;
+								std::cout << "New value: ";
+								
+								getInputGET(usrEditValueInput, "New copay: ", "== Invalid amount ==", checkValidNumberGT0);
+								std::get<2>(dynamicRef[index]) = usrEditValueInput;
+																
+								usrEditInput = 'c';
+							break;
+							case '4':
+								std::cout << "Current deductible fullfillment: " << std::get<3>(dynamicRef[index]) << std::endl;
+								std::cout << "New state (YES/NO): ";
+								
+								std::cin >> usrEditValueInput;
+								std::get<3>(dynamicRef[index]) = usrEditValueInput;
+								
+								usrEditInput = 'c';
+							break;
+							case '5':
+								std::cout << "Current remaining visits: " << std::get<4>(dynamicRef[index]) << std::endl;
+								std::cout << "New value: ";
+								
+								getInputGET(usrEditValueInput, "New visits: ", "== Invalid amount ==", checkValidNumberGT0);
+								std::get<4>(dynamicRef[index]) = usrEditValueInput;
+								
+								staticRef[6].second = usrEditValueInput;
+								
+								// TODO Update staticlly set auth visits and other visits
+								for(short ids = index; ids < dynamicRef.size(); ids++) {
+									std::get<4>(dynamicRef[ids]) = std::to_string(stoi(usrEditValueInput) - 1 - (ids - index));
+								}
+								
+								usrEditInput = 'c';
+							break;
+							default:
+								std::cout << "== Not an option ==" << std::endl;
+								charBadInputReprint(8, 19);
+							break;
+						}
+					} while(usrEditInput != 'c');
+					
+					std::cout << "===========================" << std::endl;
+					std::cout << "| Updated Customer Visits |" << std::endl;
+					std::cout << "===========================" << std::endl;
+					printData(dynamicRef);
+					std::cout << "===========================" << std::endl;
+					
 				} else {
-					std::cout << "= =Date not on record == " << std::endl;
+					std::cout << "== Date not on record == " << std::endl;
 				}
 				
 			break;
 			case 'c':
 			break;
 			default:
+				std::cout << "== Not an option ==" << std::endl;
+				charBadInputReprint(9 + dynamicRef.size(), 19);
 			break;
 		}
-	} while(usrEditValueInput != 'c');
+	} while(usrEditInput != 'c');
 }
 
 void editComment(std::vector<std::string> &commentRef) {
@@ -551,9 +636,9 @@ void billCustomer(std::vector<std::pair<std::string, std::string>> &staticRef,
 	char usrEditInput = ' ';
 	char billDeductibleInput = ' ';
 	
-	std::cout << "====================" << std::endl;
-	std::cout << "| Billing Customer |" << std::endl;
-	std::cout << "====================" << std::endl;
+	std::cout << "=============================" << std::endl;
+	std::cout << "|      Billing Customer     |" << std::endl;
+	std::cout << "=============================" << std::endl;
 	
 	if(checkValidNumberLT0(staticRef[6].second) || checkValidNumberEQ0(staticRef[6].second)) {
 		std::cout << "=============================" << std::endl;
@@ -561,6 +646,12 @@ void billCustomer(std::vector<std::pair<std::string, std::string>> &staticRef,
 		std::cout << "| No more visits authorized |" << std::endl;
 		std::cout << "=============================" << std::endl;
 	}
+	
+	std::cout << "=============================" << std::endl;
+	std::cout << "|      Previous Visits      |" << std::endl;
+	std::cout << "=============================" << std::endl;
+	printData(dynamicRef);
+	std::cout << "=============================" << std::endl;;
 	
 	do {
 		std::cout << "Options:" << std::endl;

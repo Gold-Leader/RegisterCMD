@@ -24,8 +24,11 @@ void editCustomer(std::fstream&, std::string&,
 				std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&,
 				std::vector<std::string>&);
 
-void editStatic(std::fstream&, std::string&, std::vector<std::pair<std::string, std::string>>&);
-void editDynamic(std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
+void editStatic(std::fstream&, std::string&,
+				std::vector<std::pair<std::string, std::string>>&,
+				std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
+void editDynamic(std::vector<std::pair<std::string, std::string>>&,
+				std::vector<std::tuple<std::string, std::string, std::string, std::string, std::string>>&);
 void editComment(std::vector<std::string>&);
 
 void billCustomer(std::vector<std::pair<std::string, std::string>> &,
