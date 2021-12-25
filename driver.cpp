@@ -126,18 +126,21 @@ int main () {
 				readCustomerDynamic(csvFile, customer.dynamicData);
 				readCustomerComment(csvFile, customer.commentData);
 				
-				std::cout << "===========================" << std::endl;
-				std::cout << "| Retrieved Customer Data |" << std::endl;
-				std::cout << "===========================" << std::endl;
-				
-				printData(customer.staticData);
-				std::cout << std::endl;
-				printData(customer.dynamicData);
-				std::cout << std::endl;
-				printData(customer.commentData);
-				std::cout << "===========================" << std::endl;
 
 				do {
+					system("CLS");
+					
+					std::cout << "===========================" << std::endl;
+					std::cout << "| Retrieved Customer Data |" << std::endl;
+					std::cout << "===========================" << std::endl;
+					
+					printData(customer.staticData);
+					std::cout << std::endl;
+					printData(customer.dynamicData);
+					std::cout << std::endl;
+					printData(customer.commentData);
+					std::cout << "===========================" << std::endl;
+					
 					std::cout << "File Actions:" << std::endl;
 					std::cout << "[1] - Bill Customer" << std::endl;
 					std::cout << "[2] - Edit Customer" << std::endl;
@@ -152,14 +155,12 @@ int main () {
 						case '1':
 							// [1] Bill
 							system("CLS");
-							billCustomer(customer.staticData, customer.dynamicData);
-							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
+							billCustomer(customer.staticData, customer.dynamicData);							
 						break;
 						case '2':
 							// [2] Update/Edit
 							system("CLS");
 							editCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
-							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '3':
 							csvFile.close();
@@ -175,6 +176,7 @@ int main () {
 							// [m] Return to menu
 							// Update file and close
 							system("CLS");
+							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 							csvFile.close();
 						break;
 						default:
@@ -184,7 +186,7 @@ int main () {
 							
 						break;
 					}			
-				} while(usrOptionInput != 'm' && usrOptionInput != '3');
+				} while(usrOptionInput != 'm');
 			break;
 			
 			case '2':
@@ -203,22 +205,24 @@ int main () {
 				readCustomerDynamic(csvFile, customer.dynamicData);
 				readCustomerComment(csvFile, customer.commentData);
 				
-				std::cout << "=====================" << std::endl;
-				std::cout << "| New Customer Data |" << std::endl;
-				std::cout << "=====================" << std::endl;
-				
-				printData(customer.staticData);
-				std::cout << std::endl;
-				printData(customer.dynamicData);
-				std::cout << std::endl;
-				printData(customer.commentData);
-				std::cout << "=====================" << std::endl;
 				
 				// Update fileDir vector
 				getDir("customer_data", fileDir);
 				customer.filePath = searchDir(fileDir, customer.staticData[1].second);
 
 				do {
+					system("CLS");
+					
+					std::cout << "=====================" << std::endl;
+					std::cout << "| New Customer Data |" << std::endl;
+					std::cout << "=====================" << std::endl;
+					
+					printData(customer.staticData);
+					std::cout << std::endl;
+					printData(customer.dynamicData);
+					std::cout << std::endl;
+					printData(customer.commentData);
+					std::cout << "=====================" << std::endl;
 					std::cout << "File Actions:" << std::endl;
 					std::cout << "[1] - Bill Customer" << std::endl;
 					std::cout << "[2] - Edit Customer" << std::endl;
@@ -233,18 +237,17 @@ int main () {
 							// [1] Bill
 							system("CLS");
 							billCustomer(customer.staticData, customer.dynamicData);
-							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case '2':
 							// [2] Update/Edit
 							system("CLS");
 							editCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
-							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 						break;
 						case 'm':
 							// [m] Return to menu
 							// Update file and close
 							system("CLS");
+							writeCustomer(csvFile, customer.filePath, customer.staticData, customer.dynamicData, customer.commentData);
 							csvFile.close();
 						break;
 						default:
